@@ -1,30 +1,13 @@
 <script>
   import { Router, Route, Link } from "svelte-routing";
+  import Header from "./components/Header.svelte";
 
   let currentUserId = 1;
 </script>
 
 <main>
   <Router>
-    <header>
-      <h2>Frog Forum</h2>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home/feed</Link>
-          </li>
-          <li>
-            <Link to="/signup">Sign up</Link>
-          </li>
-          <li>
-            <Link to="/signin">Sign in</Link>
-          </li>
-          <li>
-            <Link to="/profile/{currentUserId}">My Profile</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <Header {currentUserId} />
     <Route path="/">
       <h1>Home/feed page</h1>
     </Route>

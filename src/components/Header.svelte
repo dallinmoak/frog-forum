@@ -12,10 +12,10 @@
         <Link to="/">Home/feed</Link>
       </li>
       <li>
-        <Link to="/signup">Sign up</Link>
+        <Link to="/login">Login</Link>
       </li>
       <li>
-        <Link to="/signin">Sign in</Link>
+        <Link to="/registration">Register</Link>
       </li>
       <li>
         <Link to="/profile/{currentUserId}">My Profile</Link>

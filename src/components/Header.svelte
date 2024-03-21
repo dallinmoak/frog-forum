@@ -12,11 +12,7 @@
         <Link to="/">Home/feed</Link>
       </li>
       <li>
-        {#if $currentAuthStatus && currentUser}
-          <Link to="/profile/{$currentUser?.id}">My Profile</Link>
-        {:else}
-          <p>not logged in</p>
-        {/if}
+        <Link to="/profile/{$currentUser?.id}">My Profile</Link>
       </li>
     </ul>
   </nav>

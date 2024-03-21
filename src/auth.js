@@ -1,8 +1,11 @@
 import { currentAuthStatus, currentUser } from "./stores";
+import { get } from "svelte/store";
 
 export const isAuthed = async () => {
+  //instead of checking the current store, we would want to check with auth0
+  const authed = get(currentAuthStatus);
   return new Promise((resolve) => {
-    if (localStorage.getItem("isAuthed") == "true") {
+    if (authed) {
       resolve(true);
     } else {
       resolve(false);
@@ -23,7 +26,6 @@ export const getUser = async () => {
 };
 
 export const logout = async () => {
-  localStorage.setItem("isAuthed", "false");
   currentAuthStatus.set(false);
   currentUser.set(null);
   return new Promise((resolve) => {
@@ -32,7 +34,6 @@ export const logout = async () => {
 };
 
 export const login = async () => {
-  localStorage.setItem("isAuthed", "true");
   currentAuthStatus.set(true);
   const user = await getUser();
   currentUser.set(user);
@@ -41,18 +42,4 @@ export const login = async () => {
   });
 };
 
-export const initializeAuth = async () => {
-  //create auth localstorage if not present
-  if (localStorage.getItem("isAuthed") == null) {
-    localStorage.setItem("isAuthed", "false");
-  }
-  //sycronzise auth store with auth local store
-  if (localStorage.getItem("isAuthed") == "true") {
-    currentAuthStatus.set(true);
-    const user = await getUser();
-    currentUser.set(user);
-  } else {
-    currentAuthStatus.set(false);
-    currentUser.set(null);
-  }
-};
+export const initializeAuth = async () => {};

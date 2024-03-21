@@ -1,7 +1,7 @@
 <script>
   import { Link } from "svelte-routing";
-
-  export let currentUserId = 1;
+  import { login, logout } from "../auth";
+  import { currentAuthStatus, currentUser } from "../stores";
 </script>
 
 <header>
@@ -12,11 +12,18 @@
         <Link to="/">Home/feed</Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
-      </li>
-      <li>
-        <Link to="/profile/{currentUserId}">My Profile</Link>
+        {#if $currentAuthStatus && currentUser}
+          <Link to="/profile/{$currentUser?.id}">My Profile</Link>
+        {:else}
+          <p>not logged in</p>
+        {/if}
       </li>
     </ul>
   </nav>
+  {#if $currentAuthStatus}
+    <p>Logged in as {$currentUser?.name}</p>
+    <button on:click={logout}>Logout</button>
+  {:else}
+    <button on:click={login}>login</button>
+  {/if}
 </header>

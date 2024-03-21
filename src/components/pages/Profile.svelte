@@ -1,8 +1,8 @@
 <script>
   export let userId;
   // check if the user is the current user
-  const getCurrentUser = () => 1;
-  let isCurrentUser = getCurrentUser() == userId;
+  import { currentUser } from "../../stores";
+  let isCurrentUser = $currentUser.id == userId;
 </script>
 
 {#if isCurrentUser}

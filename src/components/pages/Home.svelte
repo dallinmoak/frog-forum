@@ -1,12 +1,6 @@
 <script>
   import PostList from "../PostList.svelte";
-
-  export let currentUserId;
-
-  const getUserName = (id) => {
-    // fetch user data from the server
-    return "John Doe";
-  };
+  import { currentUser } from "../../stores";
 
   const getFollowers = (id) => {
     // fetch followers data from the server
@@ -15,5 +9,5 @@
 </script>
 
 <h1>Home/feed page</h1>
-<p>Welcome {getUserName(currentUserId)}</p>
-<PostList authors={getFollowers(currentUserId)} />
+<p>Welcome {$currentUser?.name}</p>
+<PostList authors={getFollowers($currentUser?.id)} />

@@ -1,21 +1,9 @@
 import { currentAuthStatus, currentUser } from "./stores";
 import { get } from "svelte/store";
 
-export const isAuthed = async () => {
-  //instead of checking the current store, we would want to check with auth0
-  const authed = get(currentAuthStatus);
-  return new Promise((resolve) => {
-    if (authed) {
-      resolve(true);
-    } else {
-      resolve(false);
-    }
-  });
-};
-
 export const getUser = async () => {
   const user = { name: "John Doe", id: 1 };
-  const authed = await isAuthed();
+  const authed = get(currentAuthStatus);
   return new Promise((resolve) => {
     if (authed) {
       resolve(user);
@@ -42,4 +30,11 @@ export const login = async () => {
   });
 };
 
-export const initializeAuth = async () => {};
+export const initializeAuth = async () => {
+  //this should check on auth0, not our store
+  const auth0Status = get(currentAuthStatus);
+  if (!auth0Status) {
+    currentAuthStatus.set(false);
+    currentUser.set(null);
+  }
+};

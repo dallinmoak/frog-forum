@@ -15,9 +15,6 @@
         <Link to="/login">Login</Link>
       </li>
       <li>
-        <Link to="/registration">Register</Link>
-      </li>
-      <li>
         <Link to="/profile/{currentUserId}">My Profile</Link>
       </li>
     </ul>

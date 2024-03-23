@@ -4,7 +4,7 @@
   import { currentUser } from "../../stores";
   $: isCurrentUser = $currentUser?.id == userId;
 
-document.title="Profile page"
+document.title=`frog forum|Profile page ${currentUser} `
 </script>
 
 {#if isCurrentUser}

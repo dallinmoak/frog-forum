@@ -3,6 +3,8 @@
   // check if the user is the current user
   import { currentUser } from "../../stores";
   $: isCurrentUser = $currentUser?.id == userId;
+
+document.title="Profile page"
 </script>
 
 {#if isCurrentUser}

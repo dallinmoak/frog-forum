@@ -3,8 +3,9 @@
   // check if the user is the current user
   import { currentUser } from "../../stores";
   $: isCurrentUser = $currentUser?.id == userId;
+  $: isCurrentUserName = $currentUser?.name 
 
-document.title=`frog forum|Profile page ${currentUser} `
+document.title=`frog forum|Profile page ${isCurrentUserName} ` 
 </script>
 
 {#if isCurrentUser}

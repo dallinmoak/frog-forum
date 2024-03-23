@@ -2,6 +2,7 @@
   import { Link } from "svelte-routing";
   import { login, logout } from "../auth";
   import { currentAuthStatus, currentUser } from "../stores";
+  import NewPost from "./pages/NewPost.svelte";
 </script>
 
 <header>
@@ -13,6 +14,9 @@
       </li>
       <li>
         <Link to="/profile/{$currentUser?.id}">My Profile</Link>
+      </li>
+      <li>
+        <Link to="/new-post">New Post</Link>
       </li>
     </ul>
   </nav>

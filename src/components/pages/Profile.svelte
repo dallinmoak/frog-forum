@@ -5,7 +5,7 @@
   $: isCurrentUser = $currentUser?.id == userId;
   $: isCurrentUserName = $currentUser?.name 
 
-document.title=`frog forum|Profile page ${isCurrentUserName} ` 
+document.title=`Frog Forum | Profile Page ${isCurrentUserName} ` 
 </script>
 
 {#if isCurrentUser}

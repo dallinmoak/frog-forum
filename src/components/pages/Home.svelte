@@ -1,7 +1,7 @@
 <script>
   import PostList from "../PostList.svelte";
   import { currentUser } from "../../stores";
-  document.title= "frog forum | Home Page"
+  document.title= "Frog Forum | Home Page"
 
   const getFollowers = (id) => {
     // fetch followers data from the server

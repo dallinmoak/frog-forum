@@ -4,9 +4,12 @@
   import Home from "./components/pages/Home.svelte";
   import Profile from "./components/pages/Profile.svelte";
   import { onMount } from "svelte";
-  import { initializeAuth } from "./auth";
-  import { currentAuthStatus, currentUser } from "./stores";
-  onMount(() => initializeAuth());
+  import { initializeAuth, createClient } from "./auth";
+  import { currentAuth0Client } from "./stores";
+  onMount(async () => {
+    $currentAuth0Client = await createClient();
+    initializeAuth($currentAuth0Client);
+  });
 </script>
 
 <main>

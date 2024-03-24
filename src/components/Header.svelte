@@ -14,6 +14,9 @@
       <li>
         <Link to="/profile/{$currentUser?.id}">My Profile</Link>
       </li>
+      <li>
+        <Link to="/new-post">New Post</Link>
+      </li>
     </ul>
   </nav>
   {#if $currentAuthStatus}

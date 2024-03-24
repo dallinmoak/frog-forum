@@ -1,6 +1,7 @@
 import { createAuth0Client } from "@auth0/auth0-spa-js";
 import { currentAuth0Client, currentAuthStatus, currentUser } from "./stores";
 import { get } from "svelte/store";
+import { userByAuth0Id } from "./int/request";
 
 export const createClient = async () => {
   const myClient = await createAuth0Client({
@@ -18,13 +19,7 @@ export const getUser = async () => {
   const client = get(currentAuth0Client);
   const Auth0user = await client.getUser();
   // get additional user data from the backend server's db
-  const user = {
-    name: Auth0user.nickname,
-    email: Auth0user.email,
-    picture: Auth0user.picture,
-    auth0Id: Auth0user.sub,
-    id: 1,
-  };
+  const user = await userByAuth0Id(Auth0user.sub);
   return user;
 };
 

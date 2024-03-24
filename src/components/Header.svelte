@@ -2,7 +2,6 @@
   import { Link } from "svelte-routing";
   import { login, logout } from "../auth";
   import { currentAuthStatus, currentUser } from "../stores";
-  import NewPost from "./pages/NewPost.svelte";
 </script>
 
 <header>

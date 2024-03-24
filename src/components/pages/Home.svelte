@@ -1,13 +1,10 @@
 <script>
-  import PostList from "../PostList.svelte";
-  import { currentUser } from "../../stores";
-  document.title= "Frog Forum | Home Page"
-
-  const getFollowers = (id) => {
-    // fetch followers data from the server
-    return [2, 3];
-  };
+  import { currentAuthStatus } from "../../stores";
+  import Authed from "../home/Authed.svelte";
 </script>
-<h1>Home/feed page</h1>
-<p>Welcome {$currentUser?.name}</p>
-<PostList authors={getFollowers($currentUser?.id)} />
+
+{#if $currentAuthStatus}
+  <Authed />
+{:else}
+  <p>unathed view here</p>
+{/if}

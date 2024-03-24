@@ -9,14 +9,16 @@
   <nav>
     <ul>
       <li>
-        <Link to="/">Home/feed</Link>
+        <Link to="/">Home</Link>
       </li>
-      <li>
-        <Link to="/profile/{$currentUser?.id}">My Profile</Link>
-      </li>
-      <li>
-        <Link to="/new-post">New Post</Link>
-      </li>
+      {#if $currentAuthStatus}
+        <li>
+          <Link to="/profile/{$currentUser?.id}">My Profile</Link>
+        </li>
+        <li>
+          <Link to="/new-post">New Post</Link>
+        </li>
+      {/if}
     </ul>
   </nav>
   {#if $currentAuthStatus}

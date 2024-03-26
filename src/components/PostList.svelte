@@ -1,9 +1,11 @@
 <script>
+  import { postListByAuthors } from "../int/request";
+
   export let authors;
 
   const getPosts = async (authors) => {
-    // generate list of posts by authors
-    return [{ postId: 1 }, { postId: 2 }];
+    const posts = await postListByAuthors(authors);
+    return posts;
   };
 </script>
 

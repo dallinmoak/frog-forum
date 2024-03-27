@@ -26,7 +26,7 @@
     <Route path="/new-post">
       <NewPost />
     </Route>
-    <Route path="/post/:postId" let:params>
+    <Route path="/post/:userId" let:params>
       <Post postId={params.postId} />
     </Route>
   </Router>

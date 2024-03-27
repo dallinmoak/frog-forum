@@ -1,13 +1,19 @@
 <script>
+  import { upload } from "../../int/s3";
+  import { currentUser } from "../../stores";
   document.title = "Frog Forum | New Post";
-  const handleSubmit = (event) => {
+  let currentImgFiles;
+  let uploadOutput;
+  const handleSubmit = async (event) => {
     const formData = new FormData(event.target);
-    // TODO send the picture to aws, then send that and the caption and the current user id to the server
+    const pic = formData.get("frog-pic");
+    console.log(pic);
+    const uploadName = `user-upload-${$currentUser.id}-${new Date().valueOf()}`;
+    uploadOutput = await upload(pic, uploadName);
+    console.log(currentImgFiles);
     event.target.reset();
   };
 </script>
-
-<h1>New Post</h1>
 
 <form
   on:submit|preventDefault={handleSubmit}
@@ -16,6 +22,7 @@
   <div class="flex flex-col">
     <label for="frog-pic">Frog Pic</label>
     <input
+      bind:files={currentImgFiles}
       type="file"
       id="frog-pic"
       name="frog-pic"

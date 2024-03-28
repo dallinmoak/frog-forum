@@ -18,6 +18,7 @@
     your post is id {postId}
     <img src={post.pic} alt={post.caption} />
     <p>{post.caption}</p>
+    <p>{post.authorName}</p>
   </h1>
 {/if}
 

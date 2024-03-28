@@ -85,11 +85,11 @@ export const PostListByAuthor = async (author) => {
 export const postListByAuthors = async (authors) => {
   const lists = authors.map((author) => PostListByAuthor(author));
   const posts = await Promise.all(lists);
-  console.log(posts);
   const flatPosts = posts.flat();
-  console.log(flatPosts);
+  //this isn't going to work, cause the post just contains the id
+  //will need to ask for sorted posts by authors.
+  // select post.id from post where author IN (...authors) order by date;
   const stortedPosts = flatPosts.sort((a, b) => a.date - b.date);
-  console.log(stortedPosts);
   return stortedPosts;
 };
 
@@ -108,12 +108,12 @@ export const postById = async (id) => {
   return new Promise((resolve, reject) => {
     resolve({
       pic: "https://frog-test-1.s3.us-west-2.amazonaws.com/sample/bite.png",
-      caption: "A frog on a skateboard",
+      caption: "A frog bit me",
       author: 1,
       date: new Date(
         "Tue Mar 26 2024 12:00:00 GMT-0600 (Mountain Daylight Time)"
       ),
-      id,
+      postId: id,
     });
   });
 };

@@ -1,9 +1,12 @@
 <script>
   import { upload } from "../../int/s3";
   import { currentUser } from "../../stores";
+  import { createPost } from "../../int/request";
   document.title = "Frog Forum | New Post";
   let imgURL;
+  let postState = "not submmited";
   const handleSubmit = async (event) => {
+    let postCreated = "pending creation";
     const formData = new FormData(event.target);
     const pic = formData.get("frog-pic");
     // @ts-ignore
@@ -14,7 +17,19 @@
     if (status == 200) {
       imgURL = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${uploadName}`;
     }
-    // todo: send the img url, with the current user's id and the caption to the server
+    const caption = formData.get("caption");
+    const postOutput = await createPost({
+      author: $currentUser.id,
+      pic: imgURL,
+      caption,
+      date: new Date(),
+    });
+    console.log(postOutput);
+    if (postOutput.postId) {
+      postCreated = "created";
+    } else {
+      postCreated = "failed";
+    }
     event.target.reset();
   };
 </script>
@@ -41,8 +56,15 @@
 
   <button type="submit">Submit</button>
 </form>
+{#if postState == "pending creation"}
+  <p>saving...</p>
+{:else if postState == "created"}
+  <p>saved!</p>
+{:else if postState == "failed"}
+  <p>something went wrong</p>
+{/if}
 
-{#if imgURL}
+<!-- {#if imgURL}
   <p>showing image from <code>{imgURL}</code>:</p>
   <img src={imgURL} alt="frog pic" />
-{/if}
+{/if} -->

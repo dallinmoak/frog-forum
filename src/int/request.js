@@ -1,5 +1,6 @@
 import { get } from "svelte/store";
 import { currentAuth0Client } from "../stores";
+import { data } from "autoprefixer";
 
 const testUsers = [
   {
@@ -39,6 +40,20 @@ export const userById = async (id) => {
 };
 
 export const userByAuth0Id = async (auth0Id) => {
+  // const thisToken = await token();
+  // const res = await fetch(
+  //   `${import.meta.env.VITE_SERVER_URL}/users/auth0/${auth0Id}`,
+  //   {
+  //     method: "GET",
+  //     headers: {
+  //       authorization: `Bearer ${thisToken}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+  // );
+  // const data = await res.json();
+  // return data;
+  // -----------------------------------------
   return new Promise((resolve, reject) => {
     const user = testUsers.find((user) => user.auth0Id == auth0Id);
     if (user) {
@@ -49,8 +64,79 @@ export const userByAuth0Id = async (auth0Id) => {
   });
 };
 
-export const postListByAuthors = async (authors) => {
+export const PostListByAuthor = async (author) => {
+  // const thisToken = await token();
+  // const res = await fetch(
+  //   `${import.meta.env.VITE_SERVER_URL}/posts/author/${author}`,
+  //   {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       authorization: `Bearer ${thisToken}`,
+  //     },
+  //   }
+  // );
+  // const data = await res.json();
+  // -----------------------------------------
   return new Promise((resolve, reject) => {
     resolve([{ postId: 1 }, { postId: 2 }, { postId: 3 }]);
+  });
+};
+
+export const postListByAuthors = async (authors) => {
+  const lists = authors.map((author) => PostListByAuthor(author));
+  const posts = await Promise.all(lists);
+  console.log(posts);
+  const flatPosts = posts.flat();
+  console.log(flatPosts);
+  const stortedPosts = flatPosts.sort((a, b) => a.date - b.date);
+  console.log(stortedPosts);
+  return stortedPosts;
+};
+
+export const postById = async (id) => {
+  // const thisToken = await token();
+  // const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts/${id}`, {
+  //   method: "GET",
+  //   headers: {
+  //   "Content-Type": "application/json",
+  //     authorization: `Bearer ${thisToken}`,
+  //   },
+  // });
+  // const data = await res.json();
+  // return data;
+  // -----------------------------------------
+  return new Promise((resolve, reject) => {
+    resolve({
+      pic: "https://frog-test-1.s3.us-west-2.amazonaws.com/sample/bite.png",
+      caption: "A frog on a skateboard",
+      author: 1,
+      date: new Date(
+        "Tue Mar 26 2024 12:00:00 GMT-0600 (Mountain Daylight Time)"
+      ),
+      id,
+    });
+  });
+};
+
+export const createPost = async (post) => {
+  // const sendPost = JSON.stringify({
+  //   //TODO: format to match server
+  //   ...post
+  // });
+  // const thisToken = await token();
+  // const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     authorization: `Bearer ${thisToken}`,
+  //   },
+  //   body: sendPost
+  // });
+  // const data = await res.json();
+  // return data;
+  //-----------------------------------------
+  return new Promise((resolve, reject) => {
+    resolve({ ...post, postId: 1 });
   });
 };

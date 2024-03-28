@@ -1,6 +1,6 @@
 # Frog Forum
 
-frontend side of the project, backend elsewhere
+frontend side of the project, backend: [nelson-austin/frog-forum](https://github.com/nelson-austin/frog-forum)
 
 ## dev notes:
 

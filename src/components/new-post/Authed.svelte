@@ -4,9 +4,11 @@
   import { createPost } from "../../int/request";
   document.title = "Frog Forum | New Post";
   let imgURL;
-  let postState = "not submmited";
+  let pendingPost = false;
+  let postSuccess = false;
+  let postFailure = false;
   const handleSubmit = async (event) => {
-    let postCreated = "pending creation";
+    pendingPost = true;
     const formData = new FormData(event.target);
     const pic = formData.get("frog-pic");
     // @ts-ignore
@@ -26,10 +28,11 @@
     });
     console.log(postOutput);
     if (postOutput.postId) {
-      postCreated = "created";
+      postSuccess = true;
     } else {
-      postCreated = "failed";
+      postFailure = true;
     }
+    pendingPost = false;
     event.target.reset();
   };
 </script>
@@ -56,12 +59,13 @@
 
   <button type="submit">Submit</button>
 </form>
-{#if postState == "pending creation"}
+{#if pendingPost}
   <p>saving...</p>
-{:else if postState == "created"}
+{:else}
+  {#if postFailure}
+    <p>something went wrong</p>
+  {/if}
   <p>saved!</p>
-{:else if postState == "failed"}
-  <p>something went wrong</p>
 {/if}
 
 <!-- {#if imgURL}

@@ -48,7 +48,10 @@ export const login = async () => {
 export const initializeAuth = async (client) => {
   const auth0Status = await client.isAuthenticated();
   if (!auth0Status) {
-    currentAuthStatus.set(false);
     currentUser.set(null);
+  } else {
+    const user = await getUser();
+    currentUser.set(user);
   }
+  currentAuthStatus.set(auth0Status);
 };

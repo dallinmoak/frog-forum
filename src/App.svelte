@@ -1,5 +1,5 @@
 <script>
-  import { Router, Route, Link } from "svelte-routing";
+  import { Router, Route } from "svelte-routing";
   import Header from "./components/Header.svelte";
   import Home from "./components/pages/Home.svelte";
   import Profile from "./components/pages/Profile.svelte";
@@ -9,12 +9,17 @@
   import { currentAuth0Client } from "./stores";
 
   onMount(async () => {
-    $currentAuth0Client = await createClient();
+    if (!$currentAuth0Client) {
+      $currentAuth0Client = await createClient();
+    }
     initializeAuth($currentAuth0Client);
   });
 </script>
 
 <main>
+  <!-- {"currentAuth0Client: " + JSON.stringify($currentAuth0Client)} -->
+  <!-- {"currentAuthStatus: " + JSON.stringify($currentAuthStatus)} -->
+  <!-- {"currentAuthStatus: " + JSON.stringify($currentUser)} -->
   <Router>
     <Header />
     <Route path="/">

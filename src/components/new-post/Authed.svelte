@@ -1,13 +1,41 @@
 <script>
+  import { upload } from "../../int/s3";
+  import { currentUser } from "../../stores";
+  import { createPost } from "../../int/request";
   document.title = "Frog Forum | New Post";
-  const handleSubmit = (event) => {
+  let imgURL;
+  let pendingPost = false;
+  let postSuccess = false;
+  let postFailure = false;
+  const handleSubmit = async (event) => {
+    pendingPost = true;
     const formData = new FormData(event.target);
-    // TODO send the picture to aws, then send that and the caption and the current user id to the server
+    const pic = formData.get("frog-pic");
+    // @ts-ignore
+    const extension = /(?:\.([^.]+))?$/.exec(pic.name)[1];
+    const uploadName = `user-upload-${$currentUser.id}/${new Date().valueOf()}.${extension}`;
+    const uploadOutput = await upload(pic, uploadName);
+    const status = uploadOutput.$metadata?.httpStatusCode;
+    if (status == 200) {
+      imgURL = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${uploadName}`;
+    }
+    const caption = formData.get("caption");
+    const postOutput = await createPost({
+      author: $currentUser.id,
+      pic: imgURL,
+      caption,
+      date: new Date(),
+    });
+    console.log(postOutput);
+    if (postOutput.postId) {
+      postSuccess = true;
+    } else {
+      postFailure = true;
+    }
+    pendingPost = false;
     event.target.reset();
   };
 </script>
-
-<h1>New Post</h1>
 
 <form
   on:submit|preventDefault={handleSubmit}
@@ -31,3 +59,16 @@
 
   <button type="submit">Submit</button>
 </form>
+{#if pendingPost}
+  <p>saving...</p>
+{:else}
+  {#if postFailure}
+    <p>something went wrong</p>
+  {/if}
+  <p>saved!</p>
+{/if}
+
+<!-- {#if imgURL}
+  <p>showing image from <code>{imgURL}</code>:</p>
+  <img src={imgURL} alt="frog pic" />
+{/if} -->

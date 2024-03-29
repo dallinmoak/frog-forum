@@ -6,7 +6,7 @@
   let post;
 
   const getPosts = async (id) => {
-    post = await postById(id);
+    post = await getPostData(id);
     post.authorName = (await userById(post.author)).name;
   };
   onMount(getPosts);

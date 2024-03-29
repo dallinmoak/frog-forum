@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { initializeAuth, createClient } from "./auth";
   import { currentAuth0Client } from "./stores";
-
+  import Post from "./components/pages/Post.svelte";
   onMount(async () => {
     if (!$currentAuth0Client) {
       $currentAuth0Client = await createClient();
@@ -30,6 +30,9 @@
     </Route>
     <Route path="/new-post">
       <NewPost />
+    </Route>
+    <Route path="/post/:postId" let:params>
+      <Post postId={params.postId} />
     </Route>
   </Router>
 </main>

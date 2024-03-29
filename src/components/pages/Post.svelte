@@ -1,15 +1,15 @@
 <script>
-  import { getPostData, userById } from "../../int/request";
+  import { postById, userById } from "../../int/request";
   import {onMount} from "svelte";
   export let postId;
 
   let post;
 
   const getPosts = async (id) => {
-    post = await getPostData(id);
+    post = await postById(id);
     post.authorName = (await userById(post.author)).name;
   };
-  onMount(getPosts)
+  onMount(getPosts);
 
 </script>
 

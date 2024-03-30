@@ -1,6 +1,6 @@
 <script>
   export let userData;
-  document.title = `Frog Forum |  ${userData.name}'s Profile`;
+  document.title = `Frog Forum |  ${userData.fName}'s Profile`;
 </script>
 
 <p>user id: {userData._id}</p>

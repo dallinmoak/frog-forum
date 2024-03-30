@@ -1,7 +1,8 @@
 <script>
   export let postId;
   import { Link } from "svelte-routing";
-  import { postById, userById } from "../../int/request";
+  import { postById } from "../../int/request/posts";
+  import { userById } from "../../int/request/users";
   import { onMount } from "svelte";
   let successMsg = window.location.search.includes("success");
   let showSuccessMsg = false;
@@ -10,7 +11,6 @@
       showSuccessMsg = true;
       setTimeout(() => {
         showSuccessMsg = false;
-        console.log("hiding success msg");
       }, 5000);
     }
   });

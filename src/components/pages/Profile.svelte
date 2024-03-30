@@ -1,14 +1,29 @@
 <script>
-  import { userById } from "../../int/request";
-  import { currentUser, currentAuthStatus } from "../../stores";
+  import { onMount } from "svelte";
+  import { userById } from "../../int/request/users";
+  import {
+    currentUser,
+    currentAuthStatus,
+    newRegistrationSuccessful,
+  } from "../../stores";
 
   export let userId;
   // check if the user is the current user
   import ProfileData from "../ProfileData.svelte";
   $: isCurrentUser = $currentUser?._id == userId;
   $: userDataPromise = userById(userId);
+  onMount(() => {
+    if ($newRegistrationSuccessful) {
+      setTimeout(() => {
+        $newRegistrationSuccessful = false;
+      }, 500);
+    }
+  });
 </script>
 
+{#if $newRegistrationSuccessful}
+  <p>Registration successful! welcome to frog forum</p>
+{/if}
 {#if $currentAuthStatus}
   {#if isCurrentUser}
     <h1>Your profile page</h1>

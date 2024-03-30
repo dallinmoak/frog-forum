@@ -1,7 +1,7 @@
 <script>
   import PostList from "./PostList.svelte";
   import { currentUser } from "../../stores";
-  import { followingByUser } from "../../int/request";
+  import { followingByUser } from "../../int/request/following";
   document.title = "Frog Forum | Home Page";
 </script>
 

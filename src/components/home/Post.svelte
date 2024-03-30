@@ -1,7 +1,8 @@
 <script>
   export let postId;
   import { Link } from "svelte-routing";
-  import { postById, userById } from "../../int/request";
+  import { postById } from "../../int/request/posts";
+  import { userById } from "../../int/request/users";
 </script>
 
 {#await postById(postId)}

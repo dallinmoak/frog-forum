@@ -7,6 +7,7 @@ export default {
     extend: {},
     fontFamily: {
       sans: ['"Baloo 2"', ...defaultTheme.fontFamily.sans],
+      mono: [...defaultTheme.fontFamily.mono],
     },
   },
   plugins: [],

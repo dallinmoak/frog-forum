@@ -2,6 +2,7 @@
   import { upload } from "../../int/s3";
   import { currentUser } from "../../stores";
   import { createPost } from "../../int/request";
+  import { navigate } from "svelte-routing";
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
@@ -26,9 +27,10 @@
       caption,
       date: new Date(),
     });
-    console.log(postOutput);
+    console.log("created post", postOutput);
     if (postOutput.postId) {
       postSuccess = true;
+      navigate(`/post/${postOutput.postId}?success=true`, { replace: false });
     } else {
       postFailure = true;
     }

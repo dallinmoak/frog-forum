@@ -20,6 +20,7 @@ export const getUser = async () => {
   const Auth0user = await client.getUser();
   // get additional user data from the backend server's db
   const user = await userByAuth0Id(Auth0user.sub);
+  console.log("user in auth", user);
   return user;
 };
 
@@ -36,6 +37,7 @@ export const login = async () => {
   const client = get(currentAuth0Client);
   await client.loginWithPopup();
   const user = await getUser();
+  console.log("user in login", user);
   currentUser.set(user);
   const isAuthed = await client.isAuthenticated();
   console.log("isAuthed", isAuthed);

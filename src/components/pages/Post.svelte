@@ -15,7 +15,9 @@
       {#await userById(post.author)}
         Fetching author...
       {:then author}
-        <Link to={`profile/${author.id}`}>{author.name}</Link>
+        <Link to={`profile/${author._id}`}
+          >{`${author.firstName} ${author.lastName}`}</Link
+        >
       {:catch e}
         <p>{JSON.stringify(e)}</p>
       {/await}

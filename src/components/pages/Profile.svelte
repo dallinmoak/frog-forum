@@ -5,8 +5,8 @@
   export let userId;
   // check if the user is the current user
   import ProfileData from "../ProfileData.svelte";
-  $: isCurrentUser = $currentUser?.id == userId;
-  let userDataPromise = userById(userId);
+  $: isCurrentUser = $currentUser?._id == userId;
+  $: userDataPromise = userById(userId);
 </script>
 
 {#if $currentAuthStatus}

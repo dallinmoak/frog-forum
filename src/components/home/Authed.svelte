@@ -1,9 +1,16 @@
 <script>
   import PostList from "./PostList.svelte";
   import { currentUser } from "../../stores";
+  import { followingByUser } from "../../int/request";
   document.title = "Frog Forum | Home Page";
 </script>
 
 <h1>Home/feed page</h1>
-<h3>Welcome, {$currentUser?.name}</h3>
-<PostList authors={$currentUser.following} />
+<h3>Welcome, {$currentUser?.firstName}</h3>
+{#await followingByUser($currentUser._id)}
+  <p>Fetching following...</p>
+{:then following}
+  <PostList authors={following} />
+{:catch e}
+  <p>{JSON.stringify(e)}</p>
+{/await}

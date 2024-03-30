@@ -21,7 +21,7 @@
     }
     const caption = formData.get("caption");
     const postOutput = await createPost({
-      author: $currentUser.id,
+      author: $currentUser._id,
       pic: imgURL,
       caption,
       date: new Date(),

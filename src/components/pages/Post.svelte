@@ -1,22 +1,31 @@
 <script>
-  import { postById, userById } from "../../int/request";
-  import { onMount } from "svelte";
   export let postId;
-
-  let post;
-
-  const getPosts = async (id) => {
-    post = await postById(id);
-    post.authorName = (await userById(post.author)).name;
-  };
-  onMount(getPosts);
+  import { Link } from "svelte-routing";
+  import { postById, userById } from "../../int/request";
 </script>
 
-{#if post}
-  <h1>
-    your post is id {postId}
+{#await postById(postId)}
+  <p>Fetching post...</p>
+{:then post}
+  <div>
+    <h1>
+      {post.caption ? post.caption : "Untitled Post"}
+    </h1>
+    <h3>
+      {#await userById(post.author)}
+        Fetching author...
+      {:then author}
+        <Link to={`profile/${author.id}`}>{author.name}</Link>
+      {:catch e}
+        <p>{JSON.stringify(e)}</p>
+      {/await}
+    </h3>
     <img src={post.pic} alt={post.caption} />
-    <p>{post.caption}</p>
-    <p>{post.authorName}</p>
-  </h1>
-{/if}
+    <p>
+      Posted
+      {post.date.toLocaleString("en-us", { timeZone: "MST" })}
+    </p>
+  </div>
+{:catch e}
+  <p>{JSON.stringify(e)}</p>
+{/await}

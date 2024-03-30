@@ -11,7 +11,7 @@
 
 {#if $currentAuthStatus}
   {#if isCurrentUser}
-    <h1>Your profile page</h1>
+    <h1 class="bg-primary-light">Your Profile Page</h1>
   {:else}
     <h1>someone else's profile page</h1>
   {/if}

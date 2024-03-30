@@ -8,7 +8,7 @@
 {#await postListByAuthors(authors)}
   <p>Fetching posts...</p>
 {:then posts}
-  <ul>
+  <ul class="post-list">
     {#each posts as post}
       <!-- display author, image, ect here -->
       <Post postId={post.postId} />

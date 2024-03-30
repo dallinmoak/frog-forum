@@ -4,8 +4,8 @@
   import { currentAuthStatus, currentUser } from "../stores";
 </script>
 
-<header>
-  <h2>Frog Forum</h2>
+<header class="bg-primary">
+  <h2 class="logo">Frog Forum</h2>
   <nav>
     <ul>
       <li>

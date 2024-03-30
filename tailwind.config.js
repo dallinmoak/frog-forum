@@ -4,7 +4,15 @@ import defaultTheme from "tailwindcss/defaultTheme";
 export default {
   content: ["./index.html", "./src/**/*.{svelte,js,ts,tsx,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          light: "#C6ECAE",
+          DEFAULT: "#7BAE7F",
+          dark: "#065143",
+        },
+      },
+    },
     fontFamily: {
       sans: ['"Baloo 2"', ...defaultTheme.fontFamily.sans],
     },

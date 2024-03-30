@@ -1,11 +1,7 @@
 <script>
-  import PostList from "../PostList.svelte";
-  import { currentUser } from "../../stores";
-
-  const getFollowers = (id) => {
-    // fetch followers data from the server
-    return [2, 3];
-  };
+  import { currentAuthStatus } from "../../stores";
+  import Authed from "../home/Authed.svelte";
+  import Unauthed from "../home/Unauthed.svelte";
 </script>
 
 {#if $currentAuthStatus}

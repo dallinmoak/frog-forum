@@ -16,4 +16,3 @@ using auth0 and amazon aws s3 for auth and image storage. relevant env vars are:
 - `VITE_AWS_REGION`
 - `VITE_AWS_ID_POOL`
 - `VITE_AWS_S3_BUCKET`
-  

@@ -1,5 +1,5 @@
 <script>
-  import { postListByAuthors } from "../../int/request";
+  import { postListByAuthors } from "../../int/request/posts";
   import Post from "./Post.svelte";
 
   export let authors;

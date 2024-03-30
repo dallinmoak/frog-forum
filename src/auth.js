@@ -1,7 +1,13 @@
 import { createAuth0Client } from "@auth0/auth0-spa-js";
-import { currentAuth0Client, currentAuthStatus, currentUser } from "./stores";
+import {
+  currentAuth0Client,
+  currentAuthStatus,
+  currentUser,
+  registrationData,
+} from "./stores";
 import { get } from "svelte/store";
-import { userByAuth0Id } from "./int/request";
+import { userByAuth0Id } from "./int/request/users";
+import { navigate } from "svelte-routing";
 
 export const createClient = async () => {
   const myClient = await createAuth0Client({
@@ -20,6 +26,12 @@ export const getUser = async () => {
   const Auth0user = await client.getUser();
   // get additional user data from the backend server's db
   const user = await userByAuth0Id(Auth0user.sub);
+  if (!user) {
+    console.log("user not found; starting registration");
+    registrationData.set(Auth0user);
+    navigate("/registration");
+    return null;
+  }
   return user;
 };
 
@@ -38,7 +50,6 @@ export const login = async () => {
   const user = await getUser();
   currentUser.set(user);
   const isAuthed = await client.isAuthenticated();
-  console.log("isAuthed", isAuthed);
   if (isAuthed) {
     currentAuthStatus.set(true);
     return user;

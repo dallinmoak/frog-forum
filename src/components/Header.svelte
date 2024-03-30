@@ -13,7 +13,7 @@
       </li>
       {#if $currentAuthStatus}
         <li>
-          <Link to="/profile/{$currentUser?.id}">My Profile</Link>
+          <Link to="/profile/{$currentUser?._id}">My Profile</Link>
         </li>
         <li>
           <Link to="/new-post">New Post</Link>
@@ -22,7 +22,7 @@
     </ul>
   </nav>
   {#if $currentAuthStatus}
-    <p>Logged in as {$currentUser?.name}</p>
+    <p>Logged in as {$currentUser?.email}</p>
     <button on:click={logout}>Logout</button>
   {:else}
     <button on:click={login}>login</button>

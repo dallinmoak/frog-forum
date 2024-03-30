@@ -1,13 +1,13 @@
 <script>
   export let userData;
-  document.title = `Frog Forum |  ${userData.name}'s Profile`;
+  document.title = `Frog Forum |  ${userData.fName}'s Profile`;
 </script>
 
-<p>user id: {userData.id}</p>
-<p>user name: {userData.name}</p>
+<p>user id: {userData._id}</p>
+<p>user name: {`${userData.firstName} ${userData.lastName}`}</p>
 <img
-  src={userData.picture}
-  alt={`${userData.name}'s profile pic`}
+  src={userData.profilePicUrl}
+  alt={`${userData.firstName} ${userData.lastName}'s profile pic`}
   class="profile-img"
 />
 <p>user email: {userData.email}</p>

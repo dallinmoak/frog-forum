@@ -8,6 +8,7 @@
   import { initializeAuth, createClient } from "./auth";
   import { currentAuth0Client } from "./stores";
   import Post from "./components/pages/Post.svelte";
+  import Registration from "./components/pages/Registration.svelte";
   onMount(async () => {
     if (!$currentAuth0Client) {
       $currentAuth0Client = await createClient();
@@ -33,6 +34,16 @@
     </Route>
     <Route path="/post/:postId" let:params>
       <Post postId={params.postId} />
+    </Route>
+    <Route path="/registration">
+      <Registration />
+    </Route>
+    <Route path="*">
+      <h3>
+        404: route <span class="font-mono bg-slate-200 rounded-md px-1"
+          >{window.location}</span
+        > Not Found
+      </h3>
     </Route>
   </Router>
 </main>

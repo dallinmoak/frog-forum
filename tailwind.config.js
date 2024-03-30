@@ -15,6 +15,7 @@ export default {
     },
     fontFamily: {
       sans: ['"Baloo 2"', ...defaultTheme.fontFamily.sans],
+      mono: [...defaultTheme.fontFamily.mono],
     },
   },
   plugins: [],

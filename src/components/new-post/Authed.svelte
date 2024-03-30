@@ -1,7 +1,8 @@
 <script>
   import { upload } from "../../int/s3";
   import { currentUser } from "../../stores";
-  import { createPost } from "../../int/request";
+  import { createPost } from "../../int/request/posts";
+  import { navigate } from "svelte-routing";
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
@@ -21,14 +22,14 @@
     }
     const caption = formData.get("caption");
     const postOutput = await createPost({
-      author: $currentUser.id,
+      author: $currentUser._id,
       pic: imgURL,
       caption,
       date: new Date(),
     });
-    console.log(postOutput);
     if (postOutput.postId) {
       postSuccess = true;
+      navigate(`/post/${postOutput.postId}?success=true`, { replace: false });
     } else {
       postFailure = true;
     }

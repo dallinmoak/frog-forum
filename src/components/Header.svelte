@@ -4,20 +4,25 @@
   import { currentAuthStatus, currentUser } from "../stores";
 </script>
 
-<header>
-  <h2>Frog Forum</h2>
+<header class="bg-primary">
+  <h2 class="logo">Frog Forum</h2>
   <nav>
     <ul>
       <li>
-        <Link to="/">Home/feed</Link>
+        <Link to="/">Home</Link>
       </li>
-      <li>
-        <Link to="/profile/{$currentUser?.id}">My Profile</Link>
-      </li>
+      {#if $currentAuthStatus}
+        <li>
+          <Link to="/profile/{$currentUser?._id}">My Profile</Link>
+        </li>
+        <li>
+          <Link to="/new-post">New Post</Link>
+        </li>
+      {/if}
     </ul>
   </nav>
   {#if $currentAuthStatus}
-    <p>Logged in as {$currentUser?.name}</p>
+    <p>Logged in as {$currentUser?.email}</p>
     <button on:click={logout}>Logout</button>
   {:else}
     <button on:click={login}>login</button>

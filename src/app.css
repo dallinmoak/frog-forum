@@ -1,8 +1,48 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap'); 
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+border-box {
+  box-sizing: border-box;
+}
+
+:root {
+  /* colors */
+  --primary-dark: #065143; 
+  --secondary-color: #77625C;
+  --secondary-light : #ccc4c1;
+  --tertiary-color: #132e59;
+  --light-grey: #fffafa;
+  --dark-grey: #303030;
+  --alert: #8b1043;
+  --alert-dark: #440821;
+}
+
+.bg-primary {
+  color: white; 
+  padding: 1em 2em;
+  display: flex; 
+  justify-content: space-between;
+  border-bottom: 3px solid var(--secondary-color);
+  margin: 0; 
+}
+
+header ul {
+  display: flex;
+  list-style-type: none;
+}
+
+header li, header p{
+  margin: 1em; 
+}
+
+header a:hover, header button:hover {
+  color: #065143; 
+  transition-duration: 0.3s;
+}
 
 h1 {
   font-size: 2em;
@@ -16,6 +56,7 @@ h2 {
 
 h3 {
   font-size: 1.17em;
+  text-align: center; 
 }
 
 h4 {
@@ -28,4 +69,39 @@ a {
 
 a:hover {
   text-decoration: none;
+}
+
+.post {
+  margin: 1em;
+  padding: 1em;
+  border: 3px solid var(--secondary-color);
+  border-radius: 20px;
+  background-color: var(--light-grey);
+}
+
+.post img {
+  border-radius: 10px;
+}
+
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.bg-primary-light {
+  text-align: center; 
+  margin: .4em; 
+  padding: .4em; 
+  color: var(--secondary-color); 
+}
+
+.logo {
+  margin: .5em; 
+  font-weight: bold; 
+  font-family: "Lilita One", cursive;
+  text-shadow: 2px 2px 2px var(--tertiary-color);
+}
+
+.profile-img {
+  border-radius: 50%;
 }

@@ -4,7 +4,7 @@
   import Unauthed from "../new-post/Unauthed.svelte";
 </script>
 
-<h1>New Post</h1>
+<h1 class="bg-primary-light">New Post</h1>
 
 {#if $currentAuthStatus}
   <Authed />

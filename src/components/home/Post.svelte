@@ -8,7 +8,7 @@
 {#await postById(postId)}
   <p>Fetching post...</p>
 {:then post}
-  <div>
+  <div class="post">
     <p>
       <span class="italic">{post.caption ? post.caption : "Untitled"}</span>
       by&nbsp;

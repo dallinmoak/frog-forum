@@ -8,5 +8,6 @@
 <img
   src={userData.profilePicUrl}
   alt={`${userData.firstName} ${userData.lastName}'s profile pic`}
+  class="profile-img"
 />
 <p>user email: {userData.email}</p>

@@ -5,7 +5,7 @@
   document.title = "Frog Forum | Home Page";
 </script>
 
-<h1>Home/feed page</h1>
+<h1 class="bg-primary-light">Your Feed</h1>
 <h3>Welcome, {$currentUser?.firstName}</h3>
 {#await followingByUser($currentUser._id)}
   <p>Fetching following...</p>

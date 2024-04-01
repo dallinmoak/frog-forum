@@ -11,8 +11,6 @@
   // check if the user is the current user
   import ProfileData from "../ProfileData.svelte";
   import Follow from "../Follow.svelte";
-  import Followers from "../Follow.svelte"
-  import { useHistory } from "svelte-routing";
   $: isCurrentUser = $currentUser?._id == userId;
   $: userDataPromise = userById(userId);
   onMount(() => {
@@ -37,8 +35,8 @@
     <p>Fetching user data...</p>
   {:then userData}
     <ProfileData {userData} />
-    <Follow label="Following" users={["660743113622a1894e2b7d98"]} firstName={["testy"]} lastName={["McTesterson"]} />
-    <Followers label="Followers" users={["660743113622a1894e2b7d98"]} firstName={["testy"]} lastName={["McTesterson"]} />
+    <Follow label="Following" users={["660743113622a1894e2b7d98"]} />
+    <Follow label="Followers" users={["660743113622a1894e2b7d98"]} />
   {:catch e}
     <p>{JSON.stringify(e)}</p>
   {/await}

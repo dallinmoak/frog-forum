@@ -3,6 +3,7 @@
   import { currentUser } from "../../stores";
   import { createPost } from "../../int/request/posts";
   import { navigate } from "svelte-routing";
+  import Button from "../ui/Button.svelte";
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
@@ -57,15 +58,15 @@
     <textarea id="caption" name="caption" class="bg-slate-100 p-2 rounded-md"
     ></textarea>
   </div>
-
-  <button type="submit">Submit</button>
+  <div class="self-center">
+    <Button type="submit">Submit</Button>
+  </div>
 </form>
 {#if pendingPost}
   <p>saving...</p>
-{:else}
-  {#if postFailure}
-    <p>something went wrong</p>
-  {/if}
+{:else if postFailure}
+  <p>something went wrong</p>
+{:else if postSuccess}
   <p>saved!</p>
 {/if}
 

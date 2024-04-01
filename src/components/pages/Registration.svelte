@@ -7,6 +7,7 @@
   } from "../../stores";
   import { userById, createUser } from "../../int/request/users";
   import { navigate } from "svelte-routing";
+  import PageHeading from "../ui/PageHeading.svelte";
   document.title = "Frog Forum | Registration";
   const handleSubmit = async (event) => {
     const formData = new FormData(event.target);
@@ -40,6 +41,7 @@
   };
 </script>
 
+<PageHeading>Registration</PageHeading>
 <form on:submit|preventDefault={handleSubmit}>
   <label for="fName">
     First Name:

@@ -4,6 +4,8 @@
   import { postById } from "../../int/request/posts";
   import { userById } from "../../int/request/users";
   import { onMount } from "svelte";
+  import UserCard from "../ui/UserCard.svelte";
+  import PageHeading from "../ui/PageHeading.svelte";
   let successMsg = window.location.search.includes("success");
   let showSuccessMsg = false;
   onMount(() => {
@@ -22,22 +24,20 @@
 {#await postById(postId)}
   <p>Fetching post...</p>
 {:then post}
-  <div>
-    <h1>
+  <div class="flex flex-col items-center">
+    <PageHeading>
       {post.caption ? post.caption : "Untitled Post"}
-    </h1>
-    <h3>
+    </PageHeading>
+    <p>
       {#await userById(post.author)}
         Fetching author...
       {:then author}
-        <Link to={`profile/${author._id}`}
-          >{`${author.firstName} ${author.lastName}`}</Link
-        >
+        <UserCard user={author} variant="large" />
       {:catch e}
         <p>{JSON.stringify(e)}</p>
       {/await}
-    </h3>
-    <img src={post.pic} alt={post.caption} />
+    </p>
+    <img class="rounded-[10px]" src={post.pic} alt={post.caption} />
     <p>
       Posted
       {post.date.toLocaleString("en-us", { timeZone: "MST" })}

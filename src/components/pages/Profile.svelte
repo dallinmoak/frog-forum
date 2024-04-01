@@ -10,6 +10,7 @@
   export let userId;
   // check if the user is the current user
   import ProfileData from "../ProfileData.svelte";
+  import Follow from "../Follow.svelte";
   import PageHeading from "../ui/PageHeading.svelte";
   $: isCurrentUser = $currentUser?._id == userId;
   $: userDataPromise = userById(userId);
@@ -35,6 +36,8 @@
     <p>Fetching user data...</p>
   {:then userData}
     <ProfileData {userData} />
+    <Follow label="Following" users={["660743113622a1894e2b7d98"]} />
+    <Follow label="Followers" users={["660743113622a1894e2b7d98"]} />
   {:catch e}
     <p>{JSON.stringify(e)}</p>
   {/await}

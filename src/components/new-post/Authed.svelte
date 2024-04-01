@@ -15,7 +15,7 @@
     const pic = formData.get("frog-pic");
     // @ts-ignore
     const extension = /(?:\.([^.]+))?$/.exec(pic.name)[1];
-    const uploadName = `user-upload-${$currentUser.id}/${new Date().valueOf()}.${extension}`;
+    const uploadName = `user-upload-${$currentUser._id}/${new Date().valueOf()}.${extension}`;
     const uploadOutput = await upload(pic, uploadName);
     const status = uploadOutput.$metadata?.httpStatusCode;
     if (status == 200) {

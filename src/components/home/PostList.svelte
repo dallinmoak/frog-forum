@@ -17,3 +17,10 @@
 {:catch e}
   <p>{JSON.stringify(e)}</p>
 {/await}
+
+<style>
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+</style>

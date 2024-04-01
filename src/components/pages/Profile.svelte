@@ -10,6 +10,7 @@
   export let userId;
   // check if the user is the current user
   import ProfileData from "../ProfileData.svelte";
+  import PageHeading from "../ui/PageHeading.svelte";
   $: isCurrentUser = $currentUser?._id == userId;
   $: userDataPromise = userById(userId);
   onMount(() => {
@@ -26,9 +27,9 @@
 {/if}
 {#if $currentAuthStatus}
   {#if isCurrentUser}
-    <h1 class="bg-primary-light">Your Profile Page</h1>
+    <PageHeading>Your Profile Page</PageHeading>
   {:else}
-    <h1>someone else's profile page</h1>
+    <PageHeading>Someone Else's Profile</PageHeading>
   {/if}
   {#await userDataPromise}
     <p>Fetching user data...</p>
@@ -38,6 +39,6 @@
     <p>{JSON.stringify(e)}</p>
   {/await}
 {:else}
-  <h1>Profile Page</h1>
+  <PageHeading>Profile</PageHeading>
   <p>Not authenticated</p>
 {/if}

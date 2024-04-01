@@ -3,6 +3,7 @@
   import { Link } from "svelte-routing";
   import { postById } from "../../int/request/posts";
   import { userById } from "../../int/request/users";
+  import UserCard from "../ui/UserCard.svelte";
 </script>
 
 {#await postById(postId)}
@@ -15,14 +16,12 @@
       {#await userById(post.author)}
         Fetching author...
       {:then author}
-        <Link to={`profile/${author._id}`}
-          >{`${author.firstName} ${author.lastName}`}</Link
-        >
+        <UserCard user={author} />
       {:catch e}
         <p>{JSON.stringify(e)}</p>
       {/await}
     </p>
-    <img src={post.pic} alt={post.caption} />
+    <img class="rounded-[10px]" src={post.pic} alt={post.caption} />
     <p>
       Posted
       <Link to={`/post/${post.postId}`}>
@@ -33,3 +32,13 @@
 {:catch e}
   <p>{JSON.stringify(e)}</p>
 {/await}
+
+<style>
+  .post {
+    margin: 1em;
+    padding: 1em;
+    border: 3px solid var(--secondary-color);
+    border-radius: 20px;
+    background-color: var(--light-grey);
+  }
+</style>

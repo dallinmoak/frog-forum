@@ -8,6 +8,8 @@ import {
 import { get } from "svelte/store";
 import { userByAuth0Id } from "./int/request/users";
 import { navigate } from "svelte-routing";
+import { followingByUser } from "./int/request/following";
+import { followersByUser } from "./int/request/followers";
 
 export const createClient = async () => {
   const myClient = await createAuth0Client({
@@ -45,10 +47,17 @@ export const logout = async () => {
 };
 
 export const login = async () => {
-  const client = get(currentAuth0Client);
+  const client = await createClient();
+  currentAuth0Client.set(client);
   await client.loginWithPopup();
   const user = await getUser();
-  currentUser.set(user);
+  const currentFollowing = await followingByUser(user._id);
+  const currentFollowers = await followersByUser(user._id);
+  currentUser.set({
+    ...user,
+    following: currentFollowing.following,
+    followers: currentFollowers.followers,
+  });
   const isAuthed = await client.isAuthenticated();
   if (isAuthed) {
     currentAuthStatus.set(true);
@@ -57,12 +66,16 @@ export const login = async () => {
 };
 
 export const initializeAuth = async (client) => {
-  const auth0Status = await client.isAuthenticated();
-  if (!auth0Status) {
-    currentUser.set(null);
-  } else {
-    const user = await getUser();
-    currentUser.set(user);
+  console.log("initializing");
+  if (client) {
+    console.log("initializing -  client exists");
+    const auth0Status = await client.isAuthenticated();
+    if (!auth0Status) {
+      currentUser.set(null);
+    } else {
+      const user = await getUser();
+      currentUser.set(user);
+    }
+    currentAuthStatus.set(auth0Status);
   }
-  currentAuthStatus.set(auth0Status);
 };

@@ -12,6 +12,7 @@ export const PostListByAuthor = async (author) => {
   //     },
   //   }
   // );
+  // if (!res.ok) throw new Error(res.statusText);
   // const data = await res.json();
   // -----------------------------------------
   return new Promise((resolve, reject) => {
@@ -39,6 +40,7 @@ export const postById = async (id) => {
   //     authorization: `Bearer ${thisToken}`,
   //   },
   // });
+  // if (!res.ok) throw new Error(res.statusText);
   // const data = await res.json();
   // return data;
   // -----------------------------------------
@@ -69,6 +71,7 @@ export const createPost = async (post) => {
   //   },
   //   body: sendPost
   // });
+  // if (!res.ok) throw new Error(res.statusText);
   // const data = await res.json();
   // return data;
   //-----------------------------------------

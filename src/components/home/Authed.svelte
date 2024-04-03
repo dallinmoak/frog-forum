@@ -1,8 +1,11 @@
 <script>
-  import PostList from "./PostList.svelte";
   import { currentUser } from "../../stores";
   import { followingByUser } from "../../int/request/following";
+  import { allUsers } from "../../int/request/users";
+  import PostList from "./PostList.svelte";
+  import UserCard from "../ui/UserCard.svelte";
   import PageHeading from "../ui/PageHeading.svelte";
+  import { onMount } from "svelte";
   document.title = "Frog Forum | Home Page";
 </script>
 
@@ -11,7 +14,20 @@
 {#await followingByUser($currentUser._id)}
   <p>Fetching following...</p>
 {:then following}
-  <PostList authors={following} />
+  <!-- {#if following.following.length === 0}
+  {:else} -->
+  <!-- {/if} -->
+  <p class="text-center">You're not following anyone yet.</p>
+  {#await allUsers()}
+    <p>Fetching users...</p>
+  {:then users}
+    {#each users as user}
+      <UserCard {user} variant="large" />
+    {/each}
+  {:catch e}
+    <p>{e}</p>
+  {/await}
+  <!-- <PostList authors={following.following} /> -->
 {:catch e}
-  <p>{JSON.stringify(e)}</p>
+  <p>{e}</p>
 {/await}

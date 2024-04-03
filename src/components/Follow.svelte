@@ -1,5 +1,6 @@
 <script>
   import { userById } from "../int/request/users";
+  import UserCard from "./ui/UserCard.svelte";
   export let users;
   export let label;
 </script>
@@ -7,10 +8,10 @@
 <h1>{label}</h1>
 {#each users as userId}
   {#await userById(userId)}
-    <p>loading users...</p>
+    <p>loading user...</p>
   {:then user}
-    <p>{`${user.firstName} ${user.lastName}`}</p>
+    <UserCard {user} />
   {:catch e}
-    <p>{JSON.stringify(e)}</p>
+    <p>{e}</p>
   {/await}
 {/each}

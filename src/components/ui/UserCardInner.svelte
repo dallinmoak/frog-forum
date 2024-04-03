@@ -23,7 +23,7 @@
 </div>
 <div>
   <p class={variants[variant].name}>{user.firstName} {user.lastName}</p>
-  <p>{user._id}</p>
+  <!-- <p>{user._id}</p> -->
   <div class={variants[variant].supplemental}>
     <p>{user.email}</p>
     <p>Birthday: {user.birthday}</p>

@@ -14,20 +14,20 @@
 {#await followingByUser($currentUser._id)}
   <p>Fetching following...</p>
 {:then following}
-  <!-- {#if following.following.length === 0}
-  {:else} -->
-  <!-- {/if} -->
-  <p class="text-center">You're not following anyone yet.</p>
-  {#await allUsers()}
-    <p>Fetching users...</p>
-  {:then users}
-    {#each users as user}
-      <UserCard {user} variant="large" />
-    {/each}
-  {:catch e}
-    <p>{e}</p>
-  {/await}
-  <!-- <PostList authors={following.following} /> -->
+  {#if following.following.length === 0}
+    <p class="text-center">You're not following anyone yet.</p>
+    {#await allUsers()}
+      <p>Fetching users...</p>
+    {:then users}
+      {#each users as user}
+        <UserCard {user} variant="large" />
+      {/each}
+    {:catch e}
+      <p>{e}</p>
+    {/await}
+  {:else}
+    <PostList authors={following.following} />
+  {/if}
 {:catch e}
   <p>{e}</p>
 {/await}

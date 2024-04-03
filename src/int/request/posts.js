@@ -21,61 +21,56 @@ export const PostListByAuthor = async (author) => {
 };
 
 export const postListByAuthors = async (authors) => {
-  const lists = authors.map((author) => PostListByAuthor(author));
-  const posts = await Promise.all(lists);
-  const flatPosts = posts.flat();
-  //this isn't going to work, cause the post just contains the id
-  //will need to ask for sorted posts by authors.
-  // select post.id from post where author IN (...authors) order by date;
-  const stortedPosts = flatPosts.sort((a, b) => a.date - b.date);
-  return stortedPosts;
+  const thisToken = await token();
+  const authorString = authors.join(",");
+  const endpoint = `${import.meta.env.VITE_SERVER_URL}/posts/${authorString}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${thisToken}`,
+    },
+  };
+  const res = await fetch(endpoint, options);
+  console.log("res: ", res);
+  if (!res.ok) throw new Error(res.statusText);
+  const data = await res.json();
+  console.log("data: ", data);
+  return data;
 };
 
 export const postById = async (id) => {
-  // const thisToken = await token();
-  // const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts/${id}`, {
-  //   method: "GET",
-  //   headers: {
-  //   "Content-Type": "application/json",
-  //     authorization: `Bearer ${thisToken}`,
-  //   },
-  // });
-  // if (!res.ok) throw new Error(res.statusText);
-  // const data = await res.json();
-  // return data;
-  // -----------------------------------------
-  return new Promise((resolve, reject) => {
-    resolve({
-      pic: "https://frog-test-1.s3.us-west-2.amazonaws.com/sample/bite.png",
-      caption: "A frog bit me",
-      author: "660743113622a1894e2b7d98",
-      date: new Date(
-        "Tue Mar 26 2024 12:00:00 GMT-0600 (Mountain Daylight Time)"
-      ),
-      postId: id,
-    });
-  });
+  const thisToken = await token();
+  const endpoint = `${import.meta.env.VITE_SERVER_URL}/posts/by-id/${id}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${thisToken}`,
+    },
+  };
+  const res = await fetch(endpoint, options);
+  if (!res.ok) throw new Error(res.statusText);
+  const data = await res.json();
+  return data;
 };
 
 export const createPost = async (post) => {
-  // const sendPost = JSON.stringify({
-  //   //TODO: format to match server
-  //   ...post
-  // });
-  // const thisToken = await token();
-  // const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     authorization: `Bearer ${thisToken}`,
-  //   },
-  //   body: sendPost
-  // });
-  // if (!res.ok) throw new Error(res.statusText);
-  // const data = await res.json();
-  // return data;
-  //-----------------------------------------
-  return new Promise((resolve, reject) => {
-    resolve({ ...post, postId: 1 });
+  const sendPost = JSON.stringify({
+    authorId: post.author,
+    image: post.pic,
+    caption: post.caption,
   });
+  const thisToken = await token();
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${thisToken}`,
+    },
+    body: sendPost,
+  });
+  if (!res.ok) throw new Error(res.statusText);
+  const data = await res.json();
+  return data;
 };

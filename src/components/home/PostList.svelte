@@ -10,8 +10,7 @@
 {:then posts}
   <ul class="post-list">
     {#each posts as post}
-      <!-- display author, image, ect here -->
-      <Post postId={post.postId} />
+      <Post {post} />
     {/each}
   </ul>
 {:catch e}

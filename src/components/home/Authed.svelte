@@ -10,6 +10,9 @@
 </script>
 
 <PageHeading>Your Feed</PageHeading>
+<UserCard user={$currentUser} variant="default" />
+<UserCard user={$currentUser} variant="large" />
+<UserCard user={$currentUser} variant="page" />
 <h3 class="text-center">Welcome, {$currentUser?.firstName}</h3>
 {#await followingByUser($currentUser._id)}
   <p>Fetching following...</p>

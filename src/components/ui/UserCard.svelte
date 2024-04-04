@@ -2,47 +2,74 @@
   import { Link } from "svelte-routing";
   import Button from "./Button.svelte";
   import UserCardInner from "./UserCardInner.svelte";
+  import { follow } from "../../int/request/following";
+  import { currentUser } from "../../stores";
 
   export let user;
   export let variant = "default";
 
-  const variants = {
-    default: {
-      img: "h-8 w-8 object-cover",
-      container:
-        "gap-1 p-[0.5em] w-[fit-content]  hover:bg-primary transition-colors",
-      name: "text-md",
-      supplemental: "hidden",
-      follow: "hidden",
-    },
-    large: {
-      img: "h-14 w-14 object-cover",
-      container:
-        "gap-2 p-[0.75em] w-[fit-content] hover:bg-primary transition-colors",
-      name: "text-lg",
-      supplemental: "text-sm pl-1",
-      follow: "",
-    },
-    page: {
-      img: "h-[14em] w-[14em] object-cover",
-      container: "gap-2 p-[0.75em] min-h-[20em] cursor-default",
-      name: "text-[2.4em]",
-      supplemental: "text-lg",
-      follow: "text-[1.7em]",
-    },
+  $: isFollowing = $currentUser.following?.includes(user._id);
+  $: isSelf = user._id === $currentUser._id;
+  $: action = isFollowing ? "unfollow" : "follow";
+
+  const handleFollow = () => {
+    follow($currentUser._id, user._id, action);
   };
 </script>
 
 <div
-  class="[&>*]:flex [&>*]:flex-row [&>*]:flex-wrap [&>*]:justify-between [&>*]:items-center [&>*]:rounded-md [&>*]:no-underline [&>*]:bg-primary-light [&>*]:my-1"
+  class="gap-2 p-[0.75em] w-full bg-primary-light hover:bg-primary transition-colors flex flex-row flex-wrap justify-between items-center rounded-md no-underline"
 >
-  {#if variant == "page"}
-    <div class={variants[variant].container}>
-      <UserCardInner {variant} {variants} {user} />
+  <Link
+    to={`/profile/${user._id}`}
+    class="no-underline flex flex-row items-center gap-1"
+  >
+    <img
+      class={`object-cover rounded-[50%] ${variant}`}
+      src={user.profilePicUrl}
+      alt={`${user.firstName} ${user.lastName}'s profile pic`}
+    />
+    <div>
+      <p class={`name ${variant}`}>{user.firstName} {user.lastName}</p>
+      <!-- <p>{user._id}</p> -->
+      <div class={`supplemental ${variant}`}>
+        <p>{user.email}</p>
+        <p>Birthday: {user.birthday}</p>
+      </div>
     </div>
-  {:else}
-    <Link to={`/profile/${user._id}`} class={variants[variant].container}>
-      <UserCardInner {variant} {variants} {user} />
-    </Link>
-  {/if}
+  </Link>
+  <div>
+    {#if !isSelf && variant !== "default"}
+      <Button on:click={handleFollow}>{action}</Button>
+    {/if}
+  </div>
 </div>
+
+<style>
+  img.default {
+    width: 2rem;
+    height: 2rem;
+  }
+  img.large {
+    width: 5rem;
+    height: 5rem;
+  }
+  img.page {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .supplemental.default {
+    display: none;
+  }
+
+  .name.default {
+    font-size: 1rem;
+  }
+  .name.large {
+    font-size: 2.2rem;
+  }
+  .name.page {
+    font-size: 4rem;
+  }
+</style>

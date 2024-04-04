@@ -2,6 +2,7 @@ import { get } from "svelte/store";
 import { currentAuth0Client } from "../../stores";
 
 export const token = async () => {
-  const token = await get(currentAuth0Client).getTokenSilently();
+  const client = get(currentAuth0Client);
+  const token = await client.getTokenSilently();
   return token;
 };

@@ -8,7 +8,7 @@
 
   const variants = {
     default: {
-      img: "max-h-8 max-w-8",
+      img: "h-8 w-8 object-cover",
       container:
         "gap-1 p-[0.5em] w-[fit-content]  hover:bg-primary transition-colors",
       name: "text-md",
@@ -16,7 +16,7 @@
       follow: "hidden",
     },
     large: {
-      img: "max-h-14 max-w-14",
+      img: "h-14 w-14 object-cover",
       container:
         "gap-2 p-[0.75em] w-[fit-content] hover:bg-primary transition-colors",
       name: "text-lg",
@@ -24,7 +24,7 @@
       follow: "",
     },
     page: {
-      img: "h-[14em] w-[14em]",
+      img: "h-[14em] w-[14em] object-cover",
       container: "gap-2 p-[0.75em] min-h-[20em] cursor-default",
       name: "text-[2.4em]",
       supplemental: "text-lg",

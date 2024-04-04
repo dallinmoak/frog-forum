@@ -26,11 +26,12 @@
       author: $currentUser._id,
       pic: imgURL,
       caption,
-      date: new Date(),
     });
-    if (postOutput.postId) {
+    if (postOutput.insertedId) {
       postSuccess = true;
-      navigate(`/post/${postOutput.postId}?success=true`, { replace: false });
+      navigate(`/post/${postOutput.insertedId}?success=true`, {
+        replace: false,
+      });
     } else {
       postFailure = true;
     }

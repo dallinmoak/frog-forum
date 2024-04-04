@@ -29,7 +29,7 @@
       {post.caption ? post.caption : "Untitled Post"}
     </PageHeading>
     <p>
-      {#await userById(post.author)}
+      {#await userById(post.authorId)}
         Fetching author...
       {:then author}
         <UserCard user={author} variant="large" />
@@ -37,7 +37,7 @@
         <p>{JSON.stringify(e)}</p>
       {/await}
     </p>
-    <img class="rounded-[10px]" src={post.pic} alt={post.caption} />
+    <img class="rounded-[10px]" src={post.image} alt={post.caption} />
     <p>
       Posted
       {post.date.toLocaleString("en-us", { timeZone: "MST" })}

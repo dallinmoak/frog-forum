@@ -7,6 +7,7 @@
   export let user;
 
   $: isFollowing = user.following?.includes($currentUser._id);
+  $: isSelf = user._id === $currentUser._id;
 
   const handleFollow = () => {
     console.log("clicked follow");
@@ -30,9 +31,11 @@
   </div>
 </div>
 <div class={variants[variant].follow}>
-  {#if isFollowing}
-    <p>already following</p>
-  {:else}
-    <Button on:click={handleFollow}>follow</Button>
+  {#if !isSelf}
+    {#if isFollowing}
+      <p>already following</p>
+    {:else}
+      <Button on:click={handleFollow}>follow</Button>
+    {/if}
   {/if}
 </div>

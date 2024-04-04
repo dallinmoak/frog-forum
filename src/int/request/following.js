@@ -1,5 +1,7 @@
 import { token } from "./main";
 import { updateFollowers } from "./followers";
+import { currentProfilePage, currentUser } from "../../stores";
+import { followersByUser } from "./followers";
 
 export const followingByUser = async (userId) => {
   const thisToken = await token();
@@ -37,17 +39,10 @@ export const intializeFollowing = async (userId) => {
 };
 
 export const updateFollowing = async (userId, targetId, action) => {
-  console.log(
-    `${targetId} is being ${
-      action == "follow" ? "added to" : "removed from"
-    } ${userId}'s following`
-  );
   const currentFollowing = await followingByUser(userId);
   const thisToken = await token();
   let newFollowing;
-  console.log("aciton: ", action);
   if (action == "follow") {
-    console.log(`adding to array`);
     newFollowing = [...currentFollowing.following, targetId];
   }
   if (action == "unfollow") {
@@ -57,7 +52,6 @@ export const updateFollowing = async (userId, targetId, action) => {
     userId: userId,
     following: newFollowing,
   };
-  console.log("newRecord: ", newRecord);
   const res = await fetch(
     `${import.meta.env.VITE_SERVER_URL}/following/${userId}`,
     {
@@ -69,21 +63,29 @@ export const updateFollowing = async (userId, targetId, action) => {
       body: JSON.stringify(newRecord),
     }
   );
-  console.log("updatefollowing res: ", res);
   if (!res.ok) throw new Error(res.statusText);
   try {
     const data = await res.json();
-    console.log("updateFollowing data: ", data);
-    return data;
+    return newRecord.following;
   } catch (e) {
-    console.log("couldn't return data: ", e);
-    return true;
+    return newRecord.following;
   }
 };
 
 export const follow = async (userId, targetId, action) => {
-  console.log("follow request");
   const updatedFollowing = await updateFollowing(userId, targetId, action);
-  const updatedFollowers = await updateFollowers(targetId, userId, action);
-  return { updatedFollowing, updatedFollowers };
+  await updateFollowers(targetId, userId, action);
+  currentUser.update((oldUser) => {
+    return {
+      ...oldUser,
+      following: updatedFollowing ? updatedFollowing : [],
+    };
+  });
+  currentProfilePage.update((oldPage) => {
+    return {
+      ...oldPage,
+      followingByUser,
+      followersByUser,
+    };
+  });
 };

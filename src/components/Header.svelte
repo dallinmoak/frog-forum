@@ -34,7 +34,12 @@
     </ul>
   </nav>
   {#if $currentAuthStatus}
+    <!-- <div> -->
     <p class="m-[1em] text-white">Logged in as {$currentUser?.email}</p>
+    <!-- <p>{$currentUser._id}</p>
+      <p>following: {JSON.stringify($currentUser.following)}</p>
+      <p>followers: {JSON.stringify($currentUser.followers)}</p> -->
+    <!-- </div> -->
     <div class="self-center">
       <Button on:click={logout}>Logout</Button>
     </div>

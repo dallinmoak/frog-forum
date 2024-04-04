@@ -66,15 +66,19 @@ export const login = async () => {
 };
 
 export const initializeAuth = async (client) => {
-  console.log("initializing");
   if (client) {
-    console.log("initializing -  client exists");
     const auth0Status = await client.isAuthenticated();
     if (!auth0Status) {
       currentUser.set(null);
     } else {
       const user = await getUser();
-      currentUser.set(user);
+      const following = (await followingByUser(user._id)).following;
+      const followers = (await followersByUser(user._id)).followers;
+      currentUser.set({
+        ...user,
+        following,
+        followers,
+      });
     }
     currentAuthStatus.set(auth0Status);
   }

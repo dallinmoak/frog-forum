@@ -27,7 +27,6 @@
       pic: imgURL,
       caption,
     });
-    console.log(postOutput);
     if (postOutput.insertedId) {
       postSuccess = true;
       navigate(`/post/${postOutput.insertedId}?success=true`, {

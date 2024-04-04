@@ -32,10 +32,8 @@ export const postListByAuthors = async (authors) => {
     },
   };
   const res = await fetch(endpoint, options);
-  console.log("res: ", res);
   if (!res.ok) throw new Error(res.statusText);
   const data = await res.json();
-  console.log("data: ", data);
   return data;
 };
 

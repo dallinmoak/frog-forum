@@ -36,17 +36,10 @@ export const intializeFollowers = async (userId) => {
 };
 
 export const updateFollowers = async (userId, targetId, action) => {
-  console.log(
-    `${targetId} is being ${
-      action == "follow" ? "added to" : "removed from"
-    } ${userId}'s followers`
-  );
   const currentFollowers = await followersByUser(userId);
   const thisToken = await token();
   let newFollowers;
-  console.log("aciton: ", action);
   if (action == "follow") {
-    console.log(`adding to array`);
     newFollowers = [...currentFollowers.followers, targetId];
   }
   if (action == "unfollow") {
@@ -56,7 +49,6 @@ export const updateFollowers = async (userId, targetId, action) => {
     userId: userId,
     followers: newFollowers,
   };
-  console.log("newRecord: ", newRecord);
   const res = await fetch(
     `${import.meta.env.VITE_SERVER_URL}/followers/${userId}`,
     {
@@ -68,14 +60,11 @@ export const updateFollowers = async (userId, targetId, action) => {
       body: JSON.stringify(newRecord),
     }
   );
-  console.log("updateFollowers res: ", res);
   if (!res.ok) throw new Error(res.statusText);
   try {
     const data = await res.json();
-    console.log("updateFollowers data: ", data);
-    return data;
+    return newRecord.followers;
   } catch (e) {
-    console.log("couldn't read  data", e);
-    return true;
+    return newRecord.followers;
   }
 };

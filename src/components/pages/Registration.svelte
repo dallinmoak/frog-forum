@@ -8,6 +8,9 @@
   import { userById, createUser } from "../../int/request/users";
   import { navigate } from "svelte-routing";
   import PageHeading from "../ui/PageHeading.svelte";
+  import Button from "../ui/Button.svelte";
+  import Form from "../ui/Form.svelte";
+  import FormItem from "../ui/FormItem.svelte";
   document.title = "Frog Forum | Registration";
   const handleSubmit = async (event) => {
     const formData = new FormData(event.target);
@@ -39,35 +42,34 @@
       navigate(`/profile/${newUser.insertedId}`);
     }
   };
+
+  $: $registrationData = {
+    nickname: "test",
+    picture: "https://placehold.co/400",
+  };
 </script>
 
 <PageHeading>Registration</PageHeading>
-<form on:submit|preventDefault={handleSubmit}>
-  <label for="fName">
-    First Name:
-    <input
+<div class="w-full flex justify-center">
+  <Form {handleSubmit} sumbitText={"Register"}>
+    <FormItem
+      label="First Name: "
       type="text"
-      id="fName"
       name="fName"
       value={$registrationData.nickname}
       required
     />
-  </label>
-  <label for="lName">
-    Last Name:
-    <input type="text" id="lName" name="lName" required />
-  </label>
-  <label for="profilePic">
-    Profile Picture:
-    <input type="file" name="profilePic" id="profilePic" />
-  </label>
-  <label for="birthdate">
-    Birthdate:
-    <input type="date" name="birthdate" id="birthdate" />
-  </label>
-  <label for="currentPic">
-    Current Picture:
-    <img src={$registrationData.picture} alt="current user's profile pic" />
-  </label>
-  <button type="submit">Register</button>
-</form>
+    <FormItem label="Last Name:" type="text" name="lName" required />
+    <FormItem label="Profile Picture:" type="file" name="profilePic" />
+    <FormItem label="Birthdate:" type="date" name="birthdate" required />
+    <FormItem
+      label="Current Picture:"
+      type="img"
+      name="currentPic"
+      previewImg={{
+        src: $registrationData.picture,
+        alt: "current user's profile pic",
+      }}
+    />
+  </Form>
+</div>

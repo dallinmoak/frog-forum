@@ -6,7 +6,7 @@
 </script>
 
 <h1>{label} ({users.length})</h1>
-<div class="flex flex-row flex-wrap gap-2">
+<div class="flex flex-col flex-wrap gap-2">
   {#each users as userId}
     {#await userById(userId)}
       <p>loading user...</p>

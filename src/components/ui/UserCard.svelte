@@ -18,17 +18,19 @@
 </script>
 
 <div
-  class="gap-2 w-full bg-primary-light hover:bg-primary transition-colors flex flex-row flex-wrap items-center rounded-md no-underline"
+  class={`gap-2 w-full bg-primary-light hover:bg-primary transition-colors flex flex-row flex-wrap items-center rounded-md no-underline card ${variant}`}
 >
   <Link
     to={`/profile/${user._id}`}
     class="no-underline flex flex-row items-center gap-1 flex-wrap sm:flex-nowrap grow p-[0.75em]"
   >
-    <img
-      class={`object-cover rounded-[50%] ${variant}`}
-      src={user.profilePicUrl}
-      alt={`${user.firstName} ${user.lastName}'s profile pic`}
-    />
+    <div class="min-w-[fit-content]">
+      <img
+        class={`object-cover rounded-[50%] ${variant}`}
+        src={user.profilePicUrl}
+        alt={`${user.firstName} ${user.lastName}'s profile pic`}
+      />
+    </div>
     <div>
       <p class={`name ${variant}`}>{user.firstName} {user.lastName}</p>
       <!-- <p>{user._id}</p> -->
@@ -46,6 +48,10 @@
 </div>
 
 <style>
+  /* .card.default {
+    flex-shrink: 2;
+  } */
+
   img.default {
     width: 2rem;
     height: 2rem;
@@ -73,6 +79,9 @@
     font-size: 4rem;
   }
 
+  .button.default {
+    display: none;
+  }
   .button.page {
     font-size: 2em;
   }

@@ -19,9 +19,11 @@
     {#await allUsers()}
       <p>Fetching users...</p>
     {:then users}
-      {#each users as user}
-        <UserCard {user} variant="large" />
-      {/each}
+      <div class="flex flex-col gap-1">
+        {#each users as user}
+          <UserCard {user} variant="large" />
+        {/each}
+      </div>
     {:catch e}
       <p>{e}</p>
     {/await}

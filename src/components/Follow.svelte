@@ -5,13 +5,15 @@
   export let label;
 </script>
 
-<h1>{label}</h1>
-{#each users as userId}
-  {#await userById(userId)}
-    <p>loading user...</p>
-  {:then user}
-    <UserCard {user} />
-  {:catch e}
-    <p>{e}</p>
-  {/await}
-{/each}
+<h1>{label} ({users.length})</h1>
+<div class="flex flex-row flex-wrap gap-2">
+  {#each users as userId}
+    {#await userById(userId)}
+      <p>loading user...</p>
+    {:then user}
+      <UserCard {user} />
+    {:catch e}
+      <p>{e}</p>
+    {/await}
+  {/each}
+</div>

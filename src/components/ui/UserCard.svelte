@@ -18,11 +18,11 @@
 </script>
 
 <div
-  class="gap-2 p-[0.75em] w-full bg-primary-light hover:bg-primary transition-colors flex flex-row flex-wrap justify-between items-center rounded-md no-underline"
+  class="gap-2 w-full bg-primary-light hover:bg-primary transition-colors flex flex-row flex-wrap items-center rounded-md no-underline"
 >
   <Link
     to={`/profile/${user._id}`}
-    class="no-underline flex flex-row items-center gap-1"
+    class="no-underline flex flex-row items-center gap-1 flex-wrap sm:flex-nowrap grow p-[0.75em]"
   >
     <img
       class={`object-cover rounded-[50%] ${variant}`}
@@ -38,7 +38,7 @@
       </div>
     </div>
   </Link>
-  <div>
+  <div class={`p-[0.75em] button ${variant}`}>
     {#if !isSelf && variant !== "default"}
       <Button on:click={handleFollow}>{action}</Button>
     {/if}
@@ -71,5 +71,9 @@
   }
   .name.page {
     font-size: 4rem;
+  }
+
+  .button.page {
+    font-size: 2em;
   }
 </style>

@@ -7,9 +7,8 @@ import {
 } from "./stores";
 import { get } from "svelte/store";
 import { userByAuth0Id } from "./int/request/users";
+import { DataRequest } from "./int/request/main";
 import { navigate } from "svelte-routing";
-import { followingByUser } from "./int/request/following";
-import { followersByUser } from "./int/request/followers";
 
 export const createClient = async () => {
   const myClient = await createAuth0Client({
@@ -30,6 +29,7 @@ export const getUser = async () => {
   const user = await userByAuth0Id(Auth0user.sub);
   if (!user) {
     console.log("user not found; starting registration");
+    console.log("auth0 user", Auth0user);
     registrationData.set(Auth0user);
     navigate("/registration");
     return null;
@@ -51,12 +51,15 @@ export const login = async () => {
   currentAuth0Client.set(client);
   await client.loginWithPopup();
   const user = await getUser();
-  const currentFollowing = await followingByUser(user._id);
-  const currentFollowers = await followersByUser(user._id);
+  const followshipByUser = new DataRequest({
+    entity: "followship",
+    func: "getByUser",
+  });
+  const followship = await followshipByUser.send(user._id);
+  console.log("testfollowship", followship);
   currentUser.set({
     ...user,
-    following: currentFollowing.following,
-    followers: currentFollowers.followers,
+    ...followship,
   });
   const isAuthed = await client.isAuthenticated();
   if (isAuthed) {
@@ -72,12 +75,14 @@ export const initializeAuth = async (client) => {
       currentUser.set(null);
     } else {
       const user = await getUser();
-      const following = (await followingByUser(user._id)).following;
-      const followers = (await followersByUser(user._id)).followers;
+      const followshipByUser = new DataRequest({
+        entity: "followship",
+        func: "getByUser",
+      });
+      const followship = await followshipByUser.send(user._id);
       currentUser.set({
         ...user,
-        following,
-        followers,
+        ...followship,
       });
     }
     currentAuthStatus.set(auth0Status);

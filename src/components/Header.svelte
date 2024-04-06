@@ -38,6 +38,8 @@
       <p class="m-[1em] text-white">
         Logged in as {$currentUser?.email}
       </p>
+      following{JSON.stringify($currentUser.following)}
+      followers{JSON.stringify($currentUser.followers)}
     </div>
     <Button on:click={logout}>Logout</Button>
   {:else}

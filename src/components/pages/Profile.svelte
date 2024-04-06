@@ -1,8 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { userById } from "../../int/request/users";
-  import { followingByUser } from "../../int/request/following";
-  import { followersByUser } from "../../int/request/followers";
+  import { DataRequest } from "../../int/request/main";
   import {
     currentUser,
     currentAuthStatus,
@@ -16,13 +14,22 @@
   export let userId;
   // check if the user is the current user
   $: isCurrentUser = $currentUser?._id == userId;
+  const userById = new DataRequest({
+    entity: "user",
+    func: "getById",
+  });
+
+  const followshipByUser = new DataRequest({
+    entity: "followship",
+    func: "getByUser",
+  });
   onMount(() => {
     if ($newRegistrationSuccessful) {
       setTimeout(() => {
         $newRegistrationSuccessful = false;
       }, 500);
     }
-    $currentProfilePage = { userById, followersByUser, followingByUser };
+    $currentProfilePage = { userById, followshipByUser };
   });
 </script>
 
@@ -37,19 +44,19 @@
     <Follow label="Followers" users={$currentUser.followers} />
   {:else}
     <PageHeading>Someone Else's Profile</PageHeading>
-    {#if $currentProfilePage.userById && $currentProfilePage.followingByUser && $currentProfilePage.followersByUser}
-      {#await $currentProfilePage.userById(userId)}
+    {#if $currentProfilePage?.userById && $currentProfilePage?.followshipByUser}
+      {#await $currentProfilePage.userById.send(userId)}
         <p>Fetching user data...</p>
       {:then userData}
         <ProfileData {userData} />
-        {#await $currentProfilePage.followingByUser(userData._id)}
+        {#await $currentProfilePage.followshipByUser.send(userData._id)}
           <p>fetching...</p>
         {:then { following }}
           <Follow label="Following" users={following} />
         {:catch e}
           <p>{e}</p>
         {/await}
-        {#await $currentProfilePage.followersByUser(userData._id)}
+        {#await $currentProfilePage.followshipByUser.send(userData._id)}
           <p>fetching...</p>
         {:then { followers }}
           <Follow label="Followers" users={followers} />

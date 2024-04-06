@@ -2,7 +2,7 @@
   export let postId;
   import { Link } from "svelte-routing";
   import { postById } from "../../int/request/posts";
-  import { userById } from "../../int/request/users";
+  import { DataRequest } from "../../int/request/main";
   import { onMount } from "svelte";
   import UserCard from "../ui/UserCard.svelte";
   import PageHeading from "../ui/PageHeading.svelte";
@@ -15,6 +15,10 @@
         showSuccessMsg = false;
       }, 5000);
     }
+  });
+  const userById = new DataRequest({
+    entity: "user",
+    func: "getById",
   });
 </script>
 
@@ -29,7 +33,7 @@
       {post.caption ? post.caption : "Untitled Post"}
     </PageHeading>
     <p>
-      {#await userById(post.authorId)}
+      {#await userById.send(post.authorId)}
         Fetching author...
       {:then author}
         <UserCard user={author} variant="large" />

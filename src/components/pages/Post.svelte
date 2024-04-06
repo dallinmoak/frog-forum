@@ -24,7 +24,7 @@
 {#await postById(postId)}
   <p>Fetching post...</p>
 {:then post}
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center gap-2">
     <PageHeading>
       {post.caption ? post.caption : "Untitled Post"}
     </PageHeading>
@@ -40,7 +40,7 @@
     <img class="rounded-[10px]" src={post.image} alt={post.caption} />
     <p>
       Posted
-      {post.date.toLocaleString("en-us", { timeZone: "MST" })}
+      {new Date(post.date).toLocaleString("en-us", { timeZone: "MST" })}
     </p>
   </div>
 {:catch e}

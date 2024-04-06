@@ -37,27 +37,29 @@
     <Follow label="Followers" users={$currentUser.followers} />
   {:else}
     <PageHeading>Someone Else's Profile</PageHeading>
-    {#await $currentProfilePage.userById(userId)}
-      <p>Fetching user data...</p>
-    {:then userData}
-      <ProfileData {userData} />
-      {#await $currentProfilePage.followingByUser(userData._id)}
-        <p>fetching...</p>
-      {:then { following }}
-        <Follow label="Following" users={following} />
+    {#if $currentProfilePage.userById && $currentProfilePage.followingByUser && $currentProfilePage.followersByUser}
+      {#await $currentProfilePage.userById(userId)}
+        <p>Fetching user data...</p>
+      {:then userData}
+        <ProfileData {userData} />
+        {#await $currentProfilePage.followingByUser(userData._id)}
+          <p>fetching...</p>
+        {:then { following }}
+          <Follow label="Following" users={following} />
+        {:catch e}
+          <p>{e}</p>
+        {/await}
+        {#await $currentProfilePage.followersByUser(userData._id)}
+          <p>fetching...</p>
+        {:then { followers }}
+          <Follow label="Followers" users={followers} />
+        {:catch e}
+          <p>{JSON.stringify(e)}</p>
+        {/await}
       {:catch e}
         <p>{e}</p>
       {/await}
-      {#await $currentProfilePage.followersByUser(userData._id)}
-        <p>fetching...</p>
-      {:then { followers }}
-        <Follow label="Followers" users={followers} />
-      {:catch e}
-        <p>{JSON.stringify(e)}</p>
-      {/await}
-    {:catch e}
-      <p>{e}</p>
-    {/await}
+    {/if}
   {/if}
 {:else}
   <PageHeading>Profile</PageHeading>

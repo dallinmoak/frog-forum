@@ -12,10 +12,10 @@
 </script>
 
 <header
-  class="bg-primary px-[2em] py-[1em] flex flex-wrap justify-between border-b-[3px] border-b-secondary m-0"
+  class="bg-primary px-[2em] py-[1em] flex flex-wrap justify-between border-b-[3px] border-b-secondary m-0 items-center"
 >
   <h2
-    class="font-logo text-white m-[0.5em] font-bold text-shadow shadow-tertiary"
+    class="font-logo text-white m-[0.5em] text-[2.5em] font-bold text-shadow shadow-tertiary"
   >
     Frog Forum
   </h2>
@@ -25,7 +25,7 @@
         {#if $currentAuthStatus || !authOnly}
           <li class="m-[1em]">
             <Link
-              class="text-white hover:text-primary-dark  transition-colors duration-300 no-underline aria-current:underline"
+              class="text-white hover:text-primary-dark font-bold text-xl transition-colors duration-300 no-underline aria-current:underline"
               to={path}>{name}</Link
             >
           </li>
@@ -34,18 +34,13 @@
     </ul>
   </nav>
   {#if $currentAuthStatus}
-    <!-- <div> -->
-    <p class="m-[1em] text-white">Logged in as {$currentUser?.email}</p>
-    <!-- <p>{$currentUser._id}</p>
-      <p>following: {JSON.stringify($currentUser.following)}</p>
-      <p>followers: {JSON.stringify($currentUser.followers)}</p> -->
-    <!-- </div> -->
-    <div class="self-center">
-      <Button on:click={logout}>Logout</Button>
+    <div>
+      <p class="m-[1em] text-white">
+        Logged in as {$currentUser?.email}
+      </p>
     </div>
+    <Button on:click={logout}>Logout</Button>
   {:else}
-    <div class="self-center">
-      <Button on:click={login}>login</Button>
-    </div>
+    <Button on:click={login}>login</Button>
   {/if}
 </header>

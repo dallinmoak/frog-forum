@@ -4,6 +4,8 @@
   import { createPost } from "../../int/request/posts";
   import { navigate } from "svelte-routing";
   import Button from "../ui/Button.svelte";
+  import Form from "../ui/Form.svelte";
+  import FormItem from "../ui/FormItem.svelte";
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
@@ -40,29 +42,13 @@
   };
 </script>
 
-<form
-  on:submit|preventDefault={handleSubmit}
-  class="max-w-lg flex flex-col gap-4 px-5"
->
-  <div class="flex flex-col">
-    <label for="frog-pic">Frog Pic</label>
-    <input
-      type="file"
-      id="frog-pic"
-      name="frog-pic"
-      required
-      class="bg-slate-100 p-2 rounded-md"
-    />
-  </div>
-  <div class="flex flex-col">
-    <label for="caption">Post Caption</label>
-    <textarea id="caption" name="caption" class="bg-slate-100 p-2 rounded-md"
-    ></textarea>
-  </div>
-  <div class="self-center">
-    <Button type="submit">Submit</Button>
-  </div>
-</form>
+<div class="w-full flex justify-center">
+  <Form {handleSubmit}>
+    <FormItem label="Picture" type="file" name="frog-pic" required />
+    <FormItem label="Caption" type="textarea" name="caption" required />
+  </Form>
+</div>
+
 {#if pendingPost}
   <p>saving...</p>
 {:else if postFailure}

@@ -32,7 +32,6 @@ export const getUser = async () => {
   const user = await userByAuth0Id.send(Auth0user.sub);
   if (!user) {
     console.log("user not found; starting registration");
-    console.log("auth0 user", Auth0user);
     registrationData.set(Auth0user);
     navigate("/registration");
     return null;
@@ -59,7 +58,6 @@ export const login = async () => {
     func: "getByUser",
   });
   const followship = await followshipByUser.send(user._id);
-  console.log("testfollowship", followship);
   currentUser.set({
     ...user,
     ...followship,

@@ -42,7 +42,6 @@
       entity: "user",
       func: "create",
     });
-    console.log("sending the following to create: ", userToCreate);
     const newUser = await createUser.send(userToCreate);
     if (newUser) {
       $newRegistrationSuccessful = true;

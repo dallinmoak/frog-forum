@@ -75,7 +75,6 @@ const entities = {
       return await standardFetch(`users/auth0/${auth0Id}`, "GET", token);
     },
     create: async (token, newUser) => {
-      console.log("creating new user: ", newUser);
       const user = await standardFetch("users", "POST", token, newUser);
       const { insertedId } = user;
       const createFollowship = async (targetId) => {

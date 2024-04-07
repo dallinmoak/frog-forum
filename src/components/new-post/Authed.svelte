@@ -5,11 +5,13 @@
   import Form from "../ui/Form.svelte";
   import FormItem from "../ui/FormItem.svelte";
   import { DataRequest } from "../../int/dataRequest";
+
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
   let postSuccess = false;
   let postFailure = false;
+
   const handleSubmit = async (event) => {
     pendingPost = true;
     const formData = new FormData(event.target);

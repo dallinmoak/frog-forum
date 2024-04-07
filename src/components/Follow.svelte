@@ -10,15 +10,17 @@
   });
 </script>
 
-<h1>{label} ({users.length})</h1>
-<div class="flex flex-col flex-wrap gap-2">
-  {#each users as userId}
-    {#await userById.send(userId)}
-      <p>loading user...</p>
-    {:then user}
-      <UserCard {user} />
-    {:catch e}
-      <p>{e}</p>
-    {/await}
-  {/each}
+<div>
+  <h1>{label} ({users.length})</h1>
+  <div class="flex flex-col flex-wrap gap-2">
+    {#each users as userId}
+      {#await userById.send(userId)}
+        <p>loading user...</p>
+      {:then user}
+        <UserCard {user} />
+      {:catch e}
+        <p>{e}</p>
+      {/await}
+    {/each}
+  </div>
 </div>

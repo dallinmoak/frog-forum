@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
   import {
     currentUser,
     currentAuthStatus,

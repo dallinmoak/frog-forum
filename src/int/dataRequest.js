@@ -1,12 +1,14 @@
 import { get } from "svelte/store";
-import {
-  currentAuth0Client,
-  currentProfilePage,
-  currentUser,
-} from "../../stores";
+import { createClient } from "../auth";
+import { currentAuth0Client, currentUser } from "../stores";
 
 export const token = async () => {
-  const client = get(currentAuth0Client);
+  let client = get(currentAuth0Client);
+  if (!client) {
+    const newClient = await createClient();
+    currentAuth0Client.set(newClient);
+    client = newClient;
+  }
   const token = await client.getTokenSilently();
   return token;
 };
@@ -17,9 +19,15 @@ export class DataRequest {
   }
   async send(criteria) {
     const thisToken = await token();
-    const entity = entities[this.options.entity];
-    const func = entity[this.options.func];
-    return await func(thisToken, criteria);
+    if (thisToken) {
+      const entity = entities[this.options.entity];
+      const func = entity[this.options.func];
+      return await func(thisToken, criteria);
+    } else {
+      console.log(
+        `no token for ${this.options.entity}.${this.options.func} with criteria ${criteria}`
+      );
+    }
   }
 }
 
@@ -63,6 +71,9 @@ const entities = {
     getById: async (token, id) => {
       return await standardFetch(`users/${id}`, "GET", token);
     },
+    getByAuth0Id: async (token, auth0Id) => {
+      return await standardFetch(`users/auth0/${auth0Id}`, "GET", token);
+    },
     create: async (token, newUser) => {
       console.log("creating new user: ", newUser);
       const user = await standardFetch("users", "POST", token, newUser);
@@ -92,6 +103,15 @@ const entities = {
         const authorList = authors.join(",");
         return await standardFetch(`posts/${authorList}`, "GET", token);
       } else return [];
+    },
+  },
+  post: {
+    getById: async (token, id) => {
+      const postData = await standardFetch(`posts/by-id/${id}`, "GET", token);
+      return postData;
+    },
+    create: async (token, body) => {
+      return await standardFetch(`posts`, "POST", token, body);
     },
   },
   followship: {

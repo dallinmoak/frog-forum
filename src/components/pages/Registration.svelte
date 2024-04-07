@@ -7,7 +7,7 @@
     registrationData,
     currentAuthStatus,
   } from "../../stores";
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
   import { navigate } from "svelte-routing";
   import PageHeading from "../ui/PageHeading.svelte";
   import Button from "../ui/Button.svelte";

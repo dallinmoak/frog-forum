@@ -2,7 +2,7 @@
   export let post;
   import { Link } from "svelte-routing";
   import UserCard from "../ui/UserCard.svelte";
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
 
   const userById = new DataRequest({
     entity: "user",

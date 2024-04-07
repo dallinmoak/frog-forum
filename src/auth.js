@@ -6,8 +6,7 @@ import {
   registrationData,
 } from "./stores";
 import { get } from "svelte/store";
-import { userByAuth0Id } from "./int/request/users";
-import { DataRequest } from "./int/request/main";
+import { DataRequest } from "./int/dataRequest";
 import { navigate } from "svelte-routing";
 
 export const createClient = async () => {
@@ -26,7 +25,11 @@ export const getUser = async () => {
   const client = get(currentAuth0Client);
   const Auth0user = await client.getUser();
   // get additional user data from the backend server's db
-  const user = await userByAuth0Id(Auth0user.sub);
+  const userByAuth0Id = new DataRequest({
+    entity: "user",
+    func: "getByAuth0Id",
+  });
+  const user = await userByAuth0Id.send(Auth0user.sub);
   if (!user) {
     console.log("user not found; starting registration");
     console.log("auth0 user", Auth0user);

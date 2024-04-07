@@ -1,14 +1,22 @@
 <script>
   export let postId;
-  import { Link } from "svelte-routing";
-  import { postById } from "../../int/request/posts";
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
   import { onMount } from "svelte";
   import UserCard from "../ui/UserCard.svelte";
   import PageHeading from "../ui/PageHeading.svelte";
+
   let successMsg = window.location.search.includes("success");
   let showSuccessMsg = false;
-  onMount(() => {
+  const userById = new DataRequest({
+    entity: "user",
+    func: "getById",
+  });
+  const postById = new DataRequest({
+    entity: "post",
+    func: "getById",
+  });
+
+  onMount(async () => {
     if (successMsg) {
       showSuccessMsg = true;
       setTimeout(() => {
@@ -16,16 +24,12 @@
       }, 5000);
     }
   });
-  const userById = new DataRequest({
-    entity: "user",
-    func: "getById",
-  });
 </script>
 
 {#if showSuccessMsg}
   <p>Post successfully created!</p>
 {/if}
-{#await postById(postId)}
+{#await postById.send(postId)}
   <p>Fetching post...</p>
 {:then post}
   <div class="flex flex-col items-center gap-2">

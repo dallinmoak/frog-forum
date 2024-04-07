@@ -1,11 +1,10 @@
 <script>
   import { upload } from "../../int/s3";
   import { currentUser } from "../../stores";
-  import { createPost } from "../../int/request/posts";
   import { navigate } from "svelte-routing";
-  import Button from "../ui/Button.svelte";
   import Form from "../ui/Form.svelte";
   import FormItem from "../ui/FormItem.svelte";
+  import { DataRequest } from "../../int/dataRequest";
   document.title = "Frog Forum | New Post";
   let imgURL;
   let pendingPost = false;
@@ -24,9 +23,13 @@
       imgURL = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${uploadName}`;
     }
     const caption = formData.get("caption");
-    const postOutput = await createPost({
-      author: $currentUser._id,
-      pic: imgURL,
+    const createPost = new DataRequest({
+      entity: "post",
+      func: "create",
+    });
+    const postOutput = await createPost.send({
+      authorId: $currentUser._id,
+      image: imgURL,
       caption,
     });
     if (postOutput.insertedId) {

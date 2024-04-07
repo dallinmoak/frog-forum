@@ -1,5 +1,5 @@
 <script>
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
   import Post from "./Post.svelte";
 
   export let authors;

@@ -1,17 +1,16 @@
 <script>
   import { Link } from "svelte-routing";
   import Button from "./Button.svelte";
-  // import UserCardInner from "./UserCardInner.svelte";
-  // import { follow } from "../../int/request/following";
-  import { DataRequest } from "../../int/request/main";
+  import { DataRequest } from "../../int/dataRequest";
   import { currentUser } from "../../stores";
   import { currentProfilePage } from "../../stores";
 
   export let user;
   export let variant = "default";
 
-  $: isFollowing = $currentUser.following?.includes(user._id);
-  $: isSelf = user._id === $currentUser._id;
+  $: myCurrentUser = $currentUser;
+  $: isFollowing = myCurrentUser?.following?.includes(user._id);
+  $: isSelf = user._id === $currentUser?._id;
   $: action = isFollowing ? "unfollow" : "follow";
 
   const handleFollow = async () => {
@@ -52,7 +51,7 @@
     </div>
     <div>
       <p class={`name ${variant}`}>{user.firstName} {user.lastName}</p>
-      <p>{user._id}</p>
+      <!-- <p>{user._id}</p> -->
       <div class={`supplemental ${variant}`}>
         <p>{user.email}</p>
         <p>Birthday: {user.birthday}</p>

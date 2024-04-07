@@ -1,5 +1,5 @@
 <script>
-  import { DataRequest } from "../int/request/main";
+  import { DataRequest } from "../int/dataRequest";
   import UserCard from "./ui/UserCard.svelte";
   export let users;
   export let label;

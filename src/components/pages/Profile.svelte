@@ -12,6 +12,8 @@
   import ProfileData from "../ProfileData.svelte";
   import Follow from "../Follow.svelte";
   import PageHeading from "../ui/PageHeading.svelte";
+  import Post from "../home/Post.svelte";
+  import { postListByAuthors } from "../../int/request/posts";
 
   export let userId;
   // check if the user is the current user
@@ -35,6 +37,21 @@
     <ProfileData userData={$currentUser} />
     <Follow label="Following" users={$currentUser.following} />
     <Follow label="Followers" users={$currentUser.followers} />
+    <h1>Current posts</h1>
+    {#await postListByAuthors([userId])}
+      <p>Fetching posts.... </p>
+    {:then currentPosts }
+    <ul class="post-list">
+      {#each currentPosts as post}
+        <Post {post}/> 
+      {/each}
+      </ul>
+    {:catch e}
+    <p>{e}</p>
+    {/await}
+      
+
+
   {:else}
     <PageHeading>Someone Else's Profile</PageHeading>
     {#if $currentProfilePage.userById && $currentProfilePage.followingByUser && $currentProfilePage.followersByUser}
@@ -58,6 +75,18 @@
         {/await}
       {:catch e}
         <p>{e}</p>
+      {/await}
+      <h1>Current posts</h1>
+      {#await postListByAuthors([userId])}
+        <p>Fetching posts.... </p>
+      {:then currentPosts }
+      <ul class="post-list">
+        {#each currentPosts as post}
+          <Post {post}/> 
+        {/each}
+        </ul>
+      {:catch e}
+      <p>{e}</p>
       {/await}
     {/if}
   {/if}

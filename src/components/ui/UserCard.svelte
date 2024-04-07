@@ -1,19 +1,37 @@
 <script>
   import { Link } from "svelte-routing";
   import Button from "./Button.svelte";
-  import UserCardInner from "./UserCardInner.svelte";
-  import { follow } from "../../int/request/following";
+  import { DataRequest } from "../../int/dataRequest";
   import { currentUser } from "../../stores";
+  import { currentProfilePage } from "../../stores";
 
   export let user;
   export let variant = "default";
 
-  $: isFollowing = $currentUser.following?.includes(user._id);
-  $: isSelf = user._id === $currentUser._id;
+  $: myCurrentUser = $currentUser;
+  $: isFollowing = myCurrentUser?.following?.includes(user._id);
+  $: isSelf = user._id === $currentUser?._id;
   $: action = isFollowing ? "unfollow" : "follow";
 
-  const handleFollow = () => {
-    follow($currentUser._id, user._id, action);
+  const handleFollow = async () => {
+    const followByUser = new DataRequest({
+      entity: "followship",
+      func: "updateByUser",
+    });
+    await followByUser.send({
+      userId: $currentUser._id,
+      targetId: user._id,
+      action,
+    });
+    currentProfilePage.update((oldPage) => {
+      return {
+        ...oldPage,
+        followshipByUser: new DataRequest({
+          entity: "followship",
+          func: "getByUser",
+        }),
+      };
+    });
   };
 </script>
 

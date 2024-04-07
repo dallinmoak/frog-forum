@@ -1,11 +1,15 @@
 <script>
-  import { postListByAuthors } from "../../int/request/posts";
+  import { DataRequest } from "../../int/dataRequest";
   import Post from "./Post.svelte";
 
   export let authors;
+  const postListByAuthors = new DataRequest({
+    entity: "posts",
+    func: "getByAuthors",
+  });
 </script>
 
-{#await postListByAuthors(authors)}
+{#await postListByAuthors.send(authors)}
   <p>Fetching posts...</p>
 {:then posts}
   {#if posts.length === 0}

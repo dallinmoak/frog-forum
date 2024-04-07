@@ -1,16 +1,19 @@
 <script>
   import { upload } from "../../int/s3";
   import {
+    currentAuth0Client,
     currentUser,
     newRegistrationSuccessful,
     registrationData,
+    currentAuthStatus,
   } from "../../stores";
-  import { userById, createUser } from "../../int/request/users";
+  import { DataRequest } from "../../int/dataRequest";
   import { navigate } from "svelte-routing";
   import PageHeading from "../ui/PageHeading.svelte";
   import Button from "../ui/Button.svelte";
   import Form from "../ui/Form.svelte";
   import FormItem from "../ui/FormItem.svelte";
+  import { login } from "../../auth";
   document.title = "Frog Forum | Registration";
   const handleSubmit = async (event) => {
     const formData = new FormData(event.target);
@@ -35,17 +38,21 @@
       email: $registrationData.email,
       profilePicUrl: profilePicUrl,
     };
-    const newUser = await createUser(userToCreate);
+    const createUser = new DataRequest({
+      entity: "user",
+      func: "create",
+    });
+    const newUser = await createUser.send(userToCreate);
     if (newUser) {
       $newRegistrationSuccessful = true;
-      $currentUser = await userById(newUser.insertedId);
+      const userById = new DataRequest({
+        entity: "user",
+        func: "getById",
+      });
+      $currentUser = await userById.send(newUser.insertedId);
+      $currentAuthStatus = await $currentAuth0Client.isAuthenticated();
       navigate(`/profile/${newUser.insertedId}`);
     }
-  };
-
-  $: $registrationData = {
-    nickname: "test",
-    picture: "https://placehold.co/400",
   };
 </script>
 
@@ -63,7 +70,7 @@
     <FormItem label="Profile Picture:" type="file" name="profilePic" />
     <FormItem label="Birthdate:" type="date" name="birthdate" required />
     <FormItem
-      label="Current Picture:"
+      label="Default Picture:"
       type="img"
       name="currentPic"
       previewImg={{

@@ -6,10 +6,8 @@ import {
   registrationData,
 } from "./stores";
 import { get } from "svelte/store";
-import { userByAuth0Id } from "./int/request/users";
+import { DataRequest } from "./int/dataRequest";
 import { navigate } from "svelte-routing";
-import { followingByUser } from "./int/request/following";
-import { followersByUser } from "./int/request/followers";
 
 export const createClient = async () => {
   const myClient = await createAuth0Client({
@@ -27,7 +25,11 @@ export const getUser = async () => {
   const client = get(currentAuth0Client);
   const Auth0user = await client.getUser();
   // get additional user data from the backend server's db
-  const user = await userByAuth0Id(Auth0user.sub);
+  const userByAuth0Id = new DataRequest({
+    entity: "user",
+    func: "getByAuth0Id",
+  });
+  const user = await userByAuth0Id.send(Auth0user.sub);
   if (!user) {
     console.log("user not found; starting registration");
     registrationData.set(Auth0user);
@@ -51,12 +53,14 @@ export const login = async () => {
   currentAuth0Client.set(client);
   await client.loginWithPopup();
   const user = await getUser();
-  const currentFollowing = await followingByUser(user._id);
-  const currentFollowers = await followersByUser(user._id);
+  const followshipByUser = new DataRequest({
+    entity: "followship",
+    func: "getByUser",
+  });
+  const followship = await followshipByUser.send(user._id);
   currentUser.set({
     ...user,
-    following: currentFollowing.following,
-    followers: currentFollowers.followers,
+    ...followship,
   });
   const isAuthed = await client.isAuthenticated();
   if (isAuthed) {
@@ -72,12 +76,14 @@ export const initializeAuth = async (client) => {
       currentUser.set(null);
     } else {
       const user = await getUser();
-      const following = (await followingByUser(user._id)).following;
-      const followers = (await followersByUser(user._id)).followers;
+      const followshipByUser = new DataRequest({
+        entity: "followship",
+        func: "getByUser",
+      });
+      const followship = await followshipByUser.send(user._id);
       currentUser.set({
         ...user,
-        following,
-        followers,
+        ...followship,
       });
     }
     currentAuthStatus.set(auth0Status);
